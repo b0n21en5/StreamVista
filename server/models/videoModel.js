@@ -26,7 +26,6 @@ const videoSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      unique: true,
     },
     views: {
       type: Number,

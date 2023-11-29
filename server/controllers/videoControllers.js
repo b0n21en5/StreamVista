@@ -34,7 +34,7 @@ export const addNewVideo = async (req, res) => {
 
     return res.send(newVideo);
   } catch (error) {
-    return serverError(res, "Error adding new video!");
+    return serverError(res, error, "Error adding new video!");
   }
 };
 
@@ -81,7 +81,9 @@ export const updateVideoController = async (req, res) => {
 
 export const getSingleVideoDetails = async (req, res) => {
   try {
-    const video = await videoModel.findById(req.params.videoId);
+    const video = await videoModel
+      .findById(req.params.videoId)
+      .populate("channel");
     if (!video) {
       return clientError(res, "Video Not Found!");
     }
@@ -100,6 +102,7 @@ export const getSingleVideoDetails = async (req, res) => {
       videoContentType: video.video.contentType,
       thumbnailData: video.thumbnail.data.toString("base64"),
       thumbnailContentType: video.thumbnail.contentType,
+      channel: video.channel,
     };
 
     return res.send(response);
@@ -124,11 +127,11 @@ export const fetchAllCategories = async (req, res) => {
 
 export const getAllVideos = async (req, res) => {
   try {
-    const { category } = req.query;
+    const { category, similarVideos, videoId } = req.query;
     const args = {};
 
-    if (category) {
-      args["category"] = category;
+    if (category || similarVideos) {
+      args["category"] = category || similarVideos;
     }
 
     const allVideos = await videoModel
@@ -136,16 +139,46 @@ export const getAllVideos = async (req, res) => {
       .select("title thumbnail channel views")
       .populate("channel");
 
-    const response = allVideos.map((video) => ({
+    let response = allVideos.map((video) => ({
+      _id: video.id,
       title: video.title,
       thumbnailData: video.thumbnail.data.toString("base64"),
       thumbnailContentType: video.thumbnail.type,
-      channel: video.channel.name,
+      channel: video.channel,
       views: video.views,
     }));
+
+    if (videoId) {
+      response = response.filter((video) => video._id !== videoId);
+    }
 
     return res.send(response);
   } catch (error) {
     return serverError(res, error, "Error fetching all videos!");
+  }
+};
+
+export const toggleLikeOnVideo = async (req, res) => {
+  try {
+    const { videoId } = req.params;
+    const { likedId, removeLikedId } = req.query;
+
+    let video = await videoModel.findById(videoId);
+
+    if (likedId) {
+      video.likes.push(likedId);
+    }
+
+    if (removeLikedId) {
+      video.likes = video.likes.filter((id) => id.toString() !== removeLikedId);
+    }
+
+    await video.save();
+
+    const likes = video.likes;
+
+    return res.send(likes);
+  } catch (error) {
+    return serverError(res, error, "Error While Like/remove Like!");
   }
 };
