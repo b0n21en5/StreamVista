@@ -1,0 +1,41 @@
+.feedCnt {
+  display: flex;
+}
+
+.videosCnt {
+  width: 370px;
+  height: 100%;
+  padding: 10px;
+}
+
+/* Styles for category section */
+.catCnt {
+  padding: 0 2.5rem;
+  display: flex;
+}
+
+.catCnt .cat {
+  font-weight: 600;
+  height: 32px;
+  padding: 0 12px;
+  margin: 12px 12px 12px 0;
+  background-color: #ffffff37;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.catCnt .catAct {
+  color: #000;
+  background-color: #fffffff3;
+}
+
+.videosCnt {
+  width: 100%;
+  padding: 0 2.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}

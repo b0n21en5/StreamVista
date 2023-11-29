@@ -1,0 +1,131 @@
+.navCnt {
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+/* Styles for navbar left */
+.navCnt .navLeft {
+  display: flex;
+  align-items: center;
+}
+
+.navCnt .moreBtn {
+  width: 20px;
+  height: 20px;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.navCnt .moreBtn:hover {
+  background-color: #ffffff32;
+}
+
+/* styles for logo container */
+.navCnt .logoCnt {
+  padding: 16px 18px 14px;
+}
+.navCnt .logoCnt .logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* Styles for search bar */
+.searchCnt {
+  display: flex;
+}
+
+.searchBar {
+  padding-left: 1rem;
+  padding-right: 0.4rem;
+  border: 1px solid rgba(90, 90, 90, 0.495);
+  box-shadow: rgba(0, 0, 0, 0) 0px 1px 2px 0px inset;
+  border-radius: 40px 0px 0px 40px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.searchBar input {
+  font-size: 1.2rem;
+  width: 514px;
+  height: 26px;
+  background-color: #000;
+  border: none;
+}
+
+.searchBar input:focus {
+  outline: none;
+}
+
+.searchBar:has-focus {
+  border: 1px solid #1c62b9;
+}
+
+.searchCnt .searchIcon {
+  width: 64px;
+  height: 40px;
+  border: 1px solid rgba(90, 90, 90, 0.495);
+  border-radius: 0px 40px 40px 0px;
+  background-color: #ffffff1e;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Styles for User container */
+.userCnt {
+}
+
+.userCnt svg {
+  width: 20px;
+  height: 20px;
+}
+
+.signInCnt {
+  font-size: 0.88rem;
+  width: 96px;
+  height: 36px;
+  color: #3ea6ff;
+  border: 1px solid rgba(128, 128, 128, 0.662);
+  border-radius: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.signInCnt:hover {
+  background-color: #3ea5ff45;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user svg {
+  cursor: pointer;
+}
+
+.user .imgCnt {
+  cursor: pointer;
+}
+
+.user .imgCnt img {
+  border-radius: 50%;
+  object-fit: cover;
+}

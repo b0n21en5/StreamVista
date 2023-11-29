@@ -1,0 +1,21 @@
+:root {
+  color-scheme: light dark;
+  color: #fff;
+  background-color: #000;
+}
+
+a {
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+}
+a:hover {
+  color: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}

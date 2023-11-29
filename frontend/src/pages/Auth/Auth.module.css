@@ -1,0 +1,103 @@
+.authMain {
+  width: 100vw;
+  height: 90vh;
+  background-color: #fff;
+
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.authCnt {
+  width: 368px;
+  height: 75vh;
+  padding: 2.2rem 2.5rem 1.5rem;
+  border: 1px solid #17171723;
+  border-radius: 4px;
+  margin-top: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.authCnt .heading {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heading h1 {
+  color: #000;
+  font-weight: 400;
+  padding-bottom: 20px;
+  margin: 0 auto;
+}
+
+.heading .signTxt {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #000;
+}
+
+.authCnt a {
+  color: rgb(26, 115, 232);
+  width: max-content;
+  font-weight: 600;
+  padding: 0.5rem 4px;
+  border-radius: 4px;
+}
+.authCnt a:hover {
+  color: rgb(26, 115, 232);
+  background-color: rgba(26, 115, 232, 0.057);
+}
+
+.authCnt .inputCnt {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputCnt input {
+  font-size: 1.1rem;
+  color: #000;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #17171723;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.authCnt input:focus {
+  border: 2px solid rgb(53, 134, 241);
+  outline: none;
+}
+
+.passCnt {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Button container */
+.btnCnt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btnCnt button {
+  font-size: 1rem;
+  font-weight: 600;
+  width: 80px;
+  height: 35px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(26, 115, 232);
+  cursor: pointer;
+}
+
+.btnCnt button:hover {
+  background-color: rgb(19, 94, 193);
+}

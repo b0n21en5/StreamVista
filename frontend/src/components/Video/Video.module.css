@@ -1,0 +1,85 @@
+.video {
+  width: 371px;
+}
+
+.video .imgCnt {
+  width: 371px;
+  height: 209px;
+}
+
+.imgCnt img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #ffffff37;
+}
+
+.vidInfoCnt {
+  padding-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.vidInfoCnt .logoCnt {
+  width: 35px;
+  height: 35px;
+  padding-top: 2px;
+}
+
+.logoCnt img {
+  border-radius: 50%;
+}
+
+.videoInfo {
+}
+
+.videoInfo .title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 12px;
+}
+
+.videoInfo .channel {
+  font-size: 1rem;
+  color: rgb(181, 181, 181);
+}
+
+.videoInfo .views {
+  font-size: 1rem;
+  color: rgb(181, 181, 181);
+}
+
+/* Similar videos section */
+.simVid {
+  display: flex;
+  gap: 8px;
+}
+
+.simVid .imgCnt {
+  width: 200px;
+  height: 100px;
+}
+
+.simVid .imgCnt img {
+  width: 200px;
+  height: 100px;
+}
+
+.simVid .vidInfoCnt {
+  padding: 0;
+}
+
+.simVid .videoInfo .title {
+  font-size: 1rem;
+}
+
+.simVid .videoInfo .channel {
+  font-size: 0.8rem;
+}
+
+.simVid .videoInfo .views {
+  font-size: 0.8rem;
+}
