@@ -55,7 +55,10 @@ export const loginController = async (req, res) => {
     if (!email) return clientError(res, "Invalid Email!");
     if (!password) return clientError(res, "Invalid Password!");
 
-    const user = await userModel.findOne({ email: email }).select("-pic");
+    const user = await userModel
+      .findOne({ email: email })
+      .populate("channel")
+      .select("-pic");
     if (!user) return clientError(res, `No user with ${email}`);
 
     const isPassMatch = await verifyPassword(password, user.password);
@@ -113,7 +116,12 @@ export const updatedUserController = async (req, res) => {
 
     const updatedUser = await userModel.findOneAndUpdate(
       { email: email },
-      { ...req.fields, password: hashedPassword, isChannel: isChannel },
+      {
+        ...req.fields,
+        password: hashedPassword,
+        channel: channel,
+        isChannel: isChannel,
+      },
       { new: true }
     );
 

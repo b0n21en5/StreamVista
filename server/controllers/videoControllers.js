@@ -136,7 +136,7 @@ export const getAllVideos = async (req, res) => {
 
     const allVideos = await videoModel
       .find(args)
-      .select("title thumbnail channel views")
+      .select("title thumbnail channel views createdAt")
       .populate("channel");
 
     let response = allVideos.map((video) => ({
@@ -146,6 +146,7 @@ export const getAllVideos = async (req, res) => {
       thumbnailContentType: video.thumbnail.type,
       channel: video.channel,
       views: video.views,
+      createdAt: video.createdAt,
     }));
 
     if (videoId) {

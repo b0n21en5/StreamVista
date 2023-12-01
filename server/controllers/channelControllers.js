@@ -57,3 +57,43 @@ export const getAllChannels = async (req, res) => {
     return serverError(res, error, "Error fetching all channels!");
   }
 };
+
+export const getChannelDetails = async (req, res) => {
+  try {
+    const { channelId } = req.params;
+    const channel = await channelModel.findById(channelId);
+    if (!channel) {
+      return clientError(res, "No Channel Found!");
+    }
+
+    return res.send(channel);
+  } catch (error) {
+    return serverError(res, error, "Error while fetching channel details!");
+  }
+};
+
+export const getChannelVideos = async (req, res) => {
+  try {
+    const { channelId } = req.params;
+    const channel = await channelModel.findById(channelId).populate("videos");
+    if (!channel) {
+      return clientError(res, "No Channel Found!");
+    }
+
+    const response = channel.videos.map((video) => ({
+      _id: video.id,
+      title: video.title,
+      thumbnailData: video.thumbnail.data.toString("base64"),
+      thumbnailContentType: video.thumbnail.type,
+      channel: video.channel,
+      views: video.views,
+      likes: video.likes,
+      createdAt: video.createdAt,
+      description: video.description,
+    }));
+
+    return res.send(response);
+  } catch (error) {
+    return serverError(res, error, "Error fetching channel videos!");
+  }
+};
