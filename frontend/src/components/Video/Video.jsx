@@ -1,6 +1,8 @@
 import { Link, useLocation, useParams } from "react-router-dom";
-import styles from "./Video.module.css";
 import { profilePicRoute } from "../../utills/apiRoutes";
+import moment from "moment";
+import styles from "./Video.module.css";
+import { LuDot } from "react-icons/lu";
 
 const Video = ({ video }) => {
   const path = useLocation().pathname.split("/")[1];
@@ -8,7 +10,9 @@ const Video = ({ video }) => {
   return (
     <Link
       to={`/watch/${video._id}`}
-      className={`${styles.video} ${path !== "" ? styles.simVid : ""}`}
+      className={`${styles.video} ${
+        path === "" ? "" : path === "watch" ? styles.simVid : styles.chaVid
+      }`}
     >
       <div className={styles.imgCnt}>
         <img
@@ -34,7 +38,11 @@ const Video = ({ video }) => {
               `${video.title.length > 60 ? "..." : ""}`}
           </div>
           <div className={styles.channel}>{video.channel?.name}</div>
-          <div className={styles.channel}>{video.views} views</div>
+          <div className={styles.channel}>
+            {video.views} views
+            <LuDot />
+            {moment(video.createdAt).fromNow()}
+          </div>
         </div>
       </div>
     </Link>

@@ -23,7 +23,7 @@ const Sidebar = () => {
         )}
         <div className={styles.text}>Subscriptions</div>
       </Link>
-      <Link to="" className={styles.sideItem}>
+      <Link to="/feed/you" className={styles.sideItem}>
         {path === "/feed/you" ? <AiFillPlaySquare /> : <LuPlaySquare />}
         <div className={styles.text}>You</div>
       </Link>

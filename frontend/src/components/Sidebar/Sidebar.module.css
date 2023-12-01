@@ -1,8 +1,8 @@
 .sidebarCnt {
-  width: 50px;
+  width: 72px;
   min-height: 100%;
-  padding-left: 4px;
-  margin-top: 4px;
+  padding: 0 4px;
+  /* margin-top: 4px; */
   /* margin-right: 20px; */
 }
 

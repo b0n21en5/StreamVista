@@ -1,0 +1,147 @@
+.uploadModalOverlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: #0000008c;
+}
+
+.uploadModal {
+  position: absolute;
+  top: 40px;
+  left: 210px;
+  width: 860px;
+  min-height: 500px;
+  background-color: #282828;
+  border-radius: 6px;
+}
+
+/* Styles for top top section */
+.uploadModal .top {
+  font-size: 1.2rem;
+  padding: 0 1.5rem 0;
+  height: 60px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.258);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top .svgCnt {
+  display: flex;
+  gap: 15px;
+}
+
+.top .svgCnt svg {
+  color: rgb(159, 159, 159);
+  cursor: pointer;
+}
+
+.top .svgCnt svg:hover {
+  color: #fff;
+}
+
+/* ------------------------------------------------- */
+/* Style for the container */
+.vidDetInpSec {
+  padding: 1rem 2rem;
+  display: flex;
+  gap: 25px;
+}
+
+.fileInputCnt {
+  position: relative;
+  height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.uploadIcon {
+  cursor: pointer;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #16161644;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadIcon svg {
+  color: rgb(175, 175, 175);
+  width: 50px;
+  height: 50px;
+}
+
+.uploadBtn {
+  color: #000;
+  font-size: 0.88rem;
+  height: 36px;
+  width: max-content;
+  padding: 0 1rem;
+  margin-top: 20px;
+  background-color: #3ea6ff;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectedFile {
+  margin-top: 10px;
+  /* color: #333; */
+}
+
+.vidDet {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vidDet input {
+  width: 430px;
+  height: 40px;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid grey;
+  border-radius: 6px;
+}
+
+.vidDet input:focus {
+  outline: none;
+}
+
+.vidDet textarea {
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid grey;
+  border-radius: 6px;
+}
+
+/* Styles for button conatiner */
+.btnCnt {
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btnCnt .uploadBtn {
+  color: #fff;
+  background-color: royalblue;
+  border: none;
+}
+
+.btnCnt .cancelBtn {
+  color: #fff;
+  background-color: rgb(154, 6, 35);
+}

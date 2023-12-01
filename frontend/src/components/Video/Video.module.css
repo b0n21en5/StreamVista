@@ -1,9 +1,9 @@
 .video {
-  width: 371px;
+  width: 355px;
 }
 
 .video .imgCnt {
-  width: 371px;
+  width: 355px;
   height: 209px;
 }
 
@@ -31,9 +31,6 @@
   border-radius: 50%;
 }
 
-.videoInfo {
-}
-
 .videoInfo .title {
   font-size: 1.1rem;
   font-weight: 600;
@@ -59,7 +56,7 @@
 }
 
 .simVid .imgCnt {
-  width: 200px;
+  min-width: 200px;
   height: 100px;
 }
 
@@ -72,6 +69,10 @@
   padding: 0;
 }
 
+.simVid .vidInfoCnt .videoInfo {
+  width: 250px;
+}
+
 .simVid .videoInfo .title {
   font-size: 1rem;
 }
@@ -80,6 +81,37 @@
   font-size: 0.8rem;
 }
 
+.videoInfo .channel svg {
+  font-size: 1rem;
+}
+
 .simVid .videoInfo .views {
   font-size: 0.8rem;
+}
+
+/* Styles for Channel videos */
+.chaVid {
+  width: 250px;
+}
+
+.chaVid .imgCnt {
+  width: 250px;
+  height: 140px;
+}
+
+.chaVid .imgCnt img {
+  width: 250px;
+  height: 140px;
+}
+
+.chaVid .vidInfoCnt .videoInfo {
+  width: 250px;
+}
+
+.chaVid .vidInfoCnt .title {
+  font-size: 0.8rem;
+}
+
+.chaVid .videoInfo .channel {
+  font-size: 0.75rem;
 }
