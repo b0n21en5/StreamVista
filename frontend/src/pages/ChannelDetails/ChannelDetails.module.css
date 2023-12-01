@@ -1,0 +1,47 @@
+.mainCnt {
+  display: flex;
+  width: calc(100vw-80px);
+}
+
+/* Channel container */
+
+.channelCnt {
+  width: 100%;
+  padding: 0 61px;
+}
+
+.channelCnt .bannerCnt {
+  width: 100%;
+}
+
+.bannerCnt img {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Styles for channel details */
+.channelDet {
+  display: flex;
+  gap: 20px;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.channelDet .logoCnt img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.detCnt .name {
+  font-size: 2rem;
+}
+
+/* Styles for videos container */
+.videosCnt {
+  width: 100%;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(132, 132, 132, 0.418);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}

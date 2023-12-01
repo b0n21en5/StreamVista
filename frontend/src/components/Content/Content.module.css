@@ -1,0 +1,47 @@
+.video {
+  display: flex;
+  border: 1px solid rgba(128, 128, 128, 0.45);
+}
+
+/* Styles for video details */
+.vidLeft {
+  width: 320px;
+  padding: 10px;
+  border-right: 1px solid rgba(128, 128, 128, 0.45);
+  display: flex;
+  align-items: center;
+  /* gap: 10px; */
+}
+
+.vidLeft .imgCnt img{
+    object-fit: cover;
+    background-color: rgba(128, 128, 128, 0.301);
+}
+
+.vidLeft .det {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  font-size: 0.88rem;
+  padding: 0 10px;
+}
+
+.vidLeft .desc {
+  color: grey;
+  font-size: 0.78rem;
+}
+
+/* Styles for analytics section */
+.analytics {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 550px;
+  padding: 10px;
+}
+
+.analytics .date {
+  min-width: 90px;
+  display: flex;
+  justify-content: center;
+}

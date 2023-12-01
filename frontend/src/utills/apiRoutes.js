@@ -12,6 +12,8 @@ export const profilePicRoute = `${host}/api/v1/users/profile-picture`; // params
 export const createChannelRoute = `${host}/api/v1/channels/create`;
 export const updateChannelRoute = `${host}/api/v1/channels/update`; // params: channelId
 export const fetchAllChannelsRoute = `${host}/api/v1/channels/get-all`;
+export const channelDetailsRoute = `${host}/api/v1/channels/channel-details`;
+export const channelVideosRoute = `${host}/api/v1/channels/channel-videos`;
 
 // video routes
 export const addVideoRoute = `${host}/api/v1/videos/add-new`;

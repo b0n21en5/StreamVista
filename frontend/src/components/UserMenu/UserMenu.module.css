@@ -1,0 +1,83 @@
+.userMenuModalOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+/* Styles for upload menu modal */
+.uploadModal {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+
+  padding: 0.5rem 0;
+  border-radius: 10px;
+  background-color: #282828;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles for menu items */
+.menuItem {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.menuItem:hover {
+  background-color: rgb(67, 67, 67);
+}
+
+.menuItem svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* styles for user menu modal */
+.userMenuModalOverlay .userMenuModal {
+  top: 10px;
+  right: 70px;
+  width: 300px;
+  padding: 0;
+}
+
+/* Styles for heading */
+.userMenuModal .heading {
+  padding: 1rem;
+  display: flex;
+  gap: 20px;
+}
+
+.heading .userDet {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading .imgCnt {
+  width: 40px;
+  height: 40px;
+}
+
+.heading .imgCnt img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userDet a {
+  color: rgb(62, 166, 255);
+  margin-top: 5px;
+}
+
+.userDet a:hover {
+  color: rgb(62, 166, 255);
+}
+
+.userMenuModal .itemSec {
+  padding: 0.5rem 0;
+  border-top: 1px solid rgba(128, 128, 128, 0.441);
+}

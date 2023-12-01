@@ -5,10 +5,19 @@ import { Link } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { profilePicRoute } from "../../utills/apiRoutes";
-import { RiVideoAddLine } from "react-icons/ri";
+import { RiVideoAddFill, RiVideoAddLine } from "react-icons/ri";
+import { useState } from "react";
 import styles from "./Navbar.module.css";
+import UserMenu from "../UserMenu/UserMenu";
+import CreateChannel from "../CreateChannel/CreateChannel";
 
 const Navbar = () => {
+  const [isVisible, setIsVisible] = useState({
+    menu: false,
+    channel: false,
+    upload: false,
+  });
+
   const { user } = useSelector((state) => state.user);
 
   return (
@@ -38,8 +47,26 @@ const Navbar = () => {
           </Link>
         ) : (
           <div className={styles.user}>
-            <RiVideoAddLine />
-            <div className={styles.imgCnt}>
+            {user.isChannel && isVisible.upload ? (
+              <RiVideoAddFill
+                onClick={() =>
+                  setIsVisible((p) => ({ ...p, upload: !isVisible.upload }))
+                }
+              />
+            ) : (
+              <RiVideoAddLine
+                onClick={() =>
+                  setIsVisible((p) => ({ ...p, upload: !isVisible.upload }))
+                }
+              />
+            )}
+
+            <div
+              className={styles.imgCnt}
+              onClick={() =>
+                setIsVisible((p) => ({ ...p, menu: !isVisible.menu }))
+              }
+            >
               <img
                 src={`${profilePicRoute}/${user?._id}`}
                 width={32}
@@ -47,6 +74,14 @@ const Navbar = () => {
                 alt=""
               />
             </div>
+
+            {isVisible.menu && (
+              <UserMenu section="profile" setIsVisible={setIsVisible} />
+            )}
+            {isVisible.upload && (
+              <UserMenu section="upload" setIsVisible={setIsVisible} />
+            )}
+            {isVisible.channel && <CreateChannel setIsVisible={setIsVisible} />}
           </div>
         )}
       </div>
