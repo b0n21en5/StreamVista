@@ -24,7 +24,7 @@ export const updateChannel = async (req, res) => {
     const channel = await channelModel.findById(channelId);
     if (!channel) return clientError(res, "No Channel Found!");
 
-    const { name, videoId, removeVideoId } = req.body;
+    const { name, videoId, removeVideoId, subscribe, unSubscribe } = req.body;
 
     if (name) {
       channel.name = name;
@@ -37,6 +37,16 @@ export const updateChannel = async (req, res) => {
     if (removeVideoId) {
       channel.videos = channel.videos.filter(
         (videoid) => videoid.toString() !== removeVideoId
+      );
+    }
+
+    if (subscribe) {
+      channel.subscribers.push(subscribe);
+    }
+
+    if (unSubscribe) {
+      channel.subscribers = channel.subscribers.filter(
+        (userId) => userId.toString() !== unSubscribe
       );
     }
 
@@ -86,6 +96,7 @@ export const getChannelVideos = async (req, res) => {
       thumbnailData: video.thumbnail.data.toString("base64"),
       thumbnailContentType: video.thumbnail.type,
       channel: video.channel,
+      category: video.category,
       views: video.views,
       likes: video.likes,
       createdAt: video.createdAt,

@@ -152,3 +152,46 @@ export const getProfilePic = async (req, res) => {
     return serverError(res, error, "Error fetching profile pic!");
   }
 };
+
+export const toogleChannelSubscribe = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const { subscribe, unSubscribe } = req.query;
+
+    const user = await userModel.findById(userId).select("-pic");
+
+    if (subscribe) {
+      user.subscribed.push(subscribe);
+    }
+
+    if (unSubscribe) {
+      user.subscribed = user.subscribed.filter(
+        (channelId) => channelId.toString() !== unSubscribe
+      );
+    }
+
+    await user.save();
+
+    user.password = "****";
+
+    return res.send(user);
+  } catch (error) {
+    return serverError(res, error, "Error while subscribing!");
+  }
+};
+
+export const getSubscribedChannelDetails = async (req, res) => {
+  try {
+    const user = await userModel
+      .findById(req.params.userId)
+      .populate("subscribed");
+    if (!user) {
+      return clientError(res, "No user found!");
+    }
+
+    return res.send(user.subscribed);
+  } catch (error) {
+    return serverError(res, error, "Error fetching subcribed channel Details!");
+  }
+};
