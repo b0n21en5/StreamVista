@@ -28,6 +28,7 @@
 }
 
 .logoCnt img {
+  object-fit: cover;
   border-radius: 50%;
 }
 
@@ -113,5 +114,40 @@
 }
 
 .chaVid .videoInfo .channel {
+  font-size: 0.75rem;
+}
+
+/* Styles for search results */
+.search {
+  width: 100%;
+  display: flex;
+}
+
+.search .imgCnt {
+  height: 202px;
+  padding-top: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.search .vidInfoCnt {
+  padding-top: 0.78rem;
+}
+
+.search .videoInfo .title {
+  margin-bottom: 0;
+}
+
+.search .searchChannel {
+  height: 26px;
+  margin: 0.75rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.search .searchChannel .logoCnt{
+  height: 25px;
+}
+
+.search .searchChannel .channel {
   font-size: 0.75rem;
 }

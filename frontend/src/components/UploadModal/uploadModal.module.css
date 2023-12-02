@@ -10,8 +10,8 @@
 .uploadModal {
   position: absolute;
   top: 40px;
-  left: 210px;
-  width: 860px;
+  left: 120px;
+  width: 80vw;
   min-height: 500px;
   background-color: #282828;
   border-radius: 6px;
@@ -43,20 +43,22 @@
 }
 
 /* ------------------------------------------------- */
-/* Style for the container */
+/* Style for the upload details section */
 .vidDetInpSec {
   padding: 1rem 2rem;
   display: flex;
+  justify-content: space-between;
   gap: 25px;
 }
 
 .fileInputCnt {
   position: relative;
-  height: 300px;
+  min-height: 300px;
+  width: 200px;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -143,5 +145,11 @@
 
 .btnCnt .cancelBtn {
   color: #fff;
+  background-color: grey;
+}
+
+.btnCnt .deleteBtn {
+  color: #fff;
   background-color: rgb(154, 6, 35);
+  border: none;
 }

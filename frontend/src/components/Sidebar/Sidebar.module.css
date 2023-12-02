@@ -1,9 +1,11 @@
 .sidebarCnt {
   width: 72px;
-  min-height: 100%;
+  height: 100%;
   padding: 0 4px;
   /* margin-top: 4px; */
   /* margin-right: 20px; */
+  position: sticky;
+  top: 60px;
 }
 
 .sideItem {

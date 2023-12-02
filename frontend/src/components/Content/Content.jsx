@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import { channelVideosRoute } from "../../utills/apiRoutes";
 import { useParams } from "react-router-dom";
 import moment from "moment";
+import { LuMoreVertical } from "react-icons/lu";
+import UploadModal from "../UploadModal/UploadModal";
 
 import styles from "./Content.module.css";
 
-const Content = () => {
+const Content = ({isVisible,setIsVisible}) => {
   const [channelVideos, setChannelVideos] = useState({
     data: [],
     isLoading: false,
   });
+  // const [isVisible, setIsVisible] = useState({ upload: false });
 
   const { channelId } = useParams();
 
@@ -26,8 +29,8 @@ const Content = () => {
   };
 
   useEffect(() => {
-    fetchChannelVideos();
-  }, []);
+    if (!isVisible.upload) fetchChannelVideos();
+  }, [isVisible.upload]);
 
   return (
     <div className={styles}>
@@ -45,6 +48,19 @@ const Content = () => {
           : channelVideos.data?.map((video) => (
               <div key={video._id} className={styles.video}>
                 <div className={styles.vidLeft}>
+                  <LuMoreVertical
+                    className={styles.moreBtn}
+                    onClick={() =>
+                      setIsVisible((p) => ({ ...p, upload: !isVisible.upload }))
+                    }
+                  />
+                  {isVisible.upload && (
+                    <UploadModal
+                      section="update"
+                      setIsVisible={setIsVisible}
+                      video={video}
+                    />
+                  )}
                   <div className={styles.imgCnt}>
                     <img
                       src={`data:${video.thumbnailContentType};base64,${video.thumbnailData}`}

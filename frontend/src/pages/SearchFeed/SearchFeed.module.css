@@ -1,0 +1,55 @@
+.mainCnt {
+  width: 100%;
+  display: flex;
+}
+
+.mainCnt .resultsCnt {
+  padding: 0 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles for videos section */
+.mainCnt .videosCnt {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles for channels section */
+.channelsCnt {
+  width: 100%;
+  padding-top: 1.5rem;
+  /* margin-top: 1.5rem ; */
+  display: flex;
+  flex-direction: column;
+}
+
+.channelsCnt .channel {
+  display: flex;
+  align-items: center;
+}
+
+.channel .imgCnt {
+  width: 360px;
+  height: 136px;
+  display: flex;
+  justify-content: center;
+}
+
+.channel .imgCnt img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.channel .info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utills */
+.bdBtm {
+  min-width: 85vw;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.409);
+}

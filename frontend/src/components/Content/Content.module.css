@@ -5,7 +5,7 @@
 
 /* Styles for video details */
 .vidLeft {
-  width: 320px;
+  width: 330px;
   padding: 10px;
   border-right: 1px solid rgba(128, 128, 128, 0.45);
   display: flex;
@@ -13,9 +13,21 @@
   /* gap: 10px; */
 }
 
-.vidLeft .imgCnt img{
-    object-fit: cover;
-    background-color: rgba(128, 128, 128, 0.301);
+.vidLeft .moreBtn {
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 6px;
+}
+
+.vidLeft .moreBtn:hover {
+  background-color: rgba(128, 128, 128, 0.274);
+}
+
+.vidLeft .imgCnt img {
+  object-fit: cover;
+  background-color: rgba(128, 128, 128, 0.301);
 }
 
 .vidLeft .det {

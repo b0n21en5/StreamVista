@@ -28,7 +28,6 @@ const Dashboard = () => {
   const [isVisible, setIsVisible] = useState({ upload: false });
 
   const { user } = useSelector((state) => state.user);
-  // console.log(user);
 
   const navigate = useNavigate();
 
@@ -170,11 +169,18 @@ const Dashboard = () => {
               >
                 UPLOAD VIDEO
               </div>
-              {isVisible.upload && <UploadModal setIsVisible={setIsVisible} />}
+              {isVisible.upload && (
+                <UploadModal
+                  setIsVisible={setIsVisible}
+                  navigateContent={() => setActiveLink("content")}
+                />
+              )}
             </div>
           )}
 
-          {activeLink === "content" && <Content />}
+          {activeLink === "content" && (
+            <Content isVisible={isVisible} setIsVisible={setIsVisible} />
+          )}
         </div>
       </div>
     </div>

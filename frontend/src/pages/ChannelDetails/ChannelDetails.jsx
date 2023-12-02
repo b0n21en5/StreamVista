@@ -14,17 +14,19 @@ import { useParams } from "react-router-dom";
 import styles from "./ChannelDetails.module.css";
 
 const ChannelDetails = () => {
-  const [fetched, setFetched] = useState({ videos: [], channel: {} });
-
-  const { user } = useSelector((state) => state.user);
+  const [fetched, setFetched] = useState({
+    videos: [],
+    channel: {},
+    isLoad: false,
+  });
 
   const { channelId } = useParams();
-  console.log(channelId)
 
   const fetchChannelDetails = async () => {
     try {
+      setFetched((p) => ({ ...p, isLoad: true }));
       const { data } = await axios.get(`${channelDetailsRoute}/${channelId}`);
-      setFetched((p) => ({ ...p, channel: data }));
+      setFetched((p) => ({ ...p, channel: data, isLoad: false }));
     } catch (error) {
       console.log(error);
     }
@@ -32,10 +34,9 @@ const ChannelDetails = () => {
 
   const fetchChannelVideos = async () => {
     try {
-      const { data } = await axios.get(
-        `${channelVideosRoute}/${user?.channel?._id}`
-      );
-      setFetched((p) => ({ ...p, videos: data }));
+      setFetched((p) => ({ ...p, isLoad: true }));
+      const { data } = await axios.get(`${channelVideosRoute}/${channelId}`);
+      setFetched((p) => ({ ...p, videos: data, isLoad: false }));
     } catch (error) {
       console.log(error);
     }
@@ -73,11 +74,15 @@ const ChannelDetails = () => {
         </div>
 
         {/* Channel video containr */}
-        <div className={styles.videosCnt}>
-          {fetched.videos?.map((video) => (
-            <Video video={video} key={video._id} />
-          ))}
-        </div>
+        {fetched.isLoad ? (
+          "Loading..."
+        ) : (
+          <div className={styles.videosCnt}>
+            {fetched.videos?.map((video) => (
+              <Video video={video} key={video._id} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,15 +1,15 @@
 import { GoSearch } from "react-icons/go";
 import { FaRegUserCircle } from "react-icons/fa";
 import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { Link, useMatch, useNavigate } from "react-router-dom";
+import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { profilePicRoute } from "../../utills/apiRoutes";
 import { RiVideoAddFill, RiVideoAddLine } from "react-icons/ri";
-import { useState } from "react";
-import styles from "./Navbar.module.css";
+import { useEffect, useRef, useState } from "react";
 import UserMenu from "../UserMenu/UserMenu";
 import CreateChannel from "../CreateChannel/CreateChannel";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState({
@@ -17,8 +17,29 @@ const Navbar = () => {
     channel: false,
     upload: false,
   });
+  const [search, setSearch] = useState({ query: "", isActive: false });
+
+  const inputRef = useRef(null);
 
   const { user } = useSelector((state) => state.user);
+
+  const match = useMatch("/search/:query");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (match && match?.params.query) {
+      setSearch((p) => ({ ...p, query: match.params.query }));
+    }
+  }, [match]);
+
+  const handleSearchVideosChannels = (e) => {
+    e.preventDefault();
+    inputRef.current.blur();
+    if (search.query) {
+      navigate(`/search/${search.query}`);
+    }
+  };
 
   return (
     <div className={styles.navCnt}>
@@ -30,14 +51,37 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className={styles.searchCnt}>
+      <form className={styles.searchCnt} onSubmit={handleSearchVideosChannels}>
         <div className={styles.searchBar}>
-          <input type="text" name="" id="" />
+          {search.isActive && (
+            <div className={styles.leftSearchIcon}>
+              <GoSearch />
+            </div>
+          )}
+          <input
+            ref={inputRef}
+            type="text"
+            value={search.query}
+            placeholder="Search"
+            onChange={(e) =>
+              setSearch((p) => ({ ...p, query: e.target.value }))
+            }
+            onFocus={() => setSearch((p) => ({ ...p, isActive: true }))}
+            onBlur={() => setSearch((p) => ({ ...p, isActive: false }))}
+          />
+          {search.query && (
+            <RxCross1
+              onClick={() => {
+                setSearch((p) => ({ ...p, query: "", isActive: true }));
+                inputRef.current.focus();
+              }}
+            />
+          )}
         </div>
-        <div className={styles.searchIcon}>
+        <div className={styles.searchIcon} onClick={handleSearchVideosChannels}>
           <GoSearch />
         </div>
-      </div>
+      </form>
 
       <div className={styles.userCnt}>
         {!user ? (
