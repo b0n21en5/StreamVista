@@ -1,4 +1,5 @@
 import { clientError, serverError } from "../helpers/handleErrors.js";
+import channelModel from "../models/channelModel.js";
 import videoModel from "../models/videoModel.js";
 import fs from "fs";
 
@@ -76,6 +77,16 @@ export const updateVideoController = async (req, res) => {
     return res.send(updatedVideo);
   } catch (error) {
     return serverError(res, error, "Error updating video!");
+  }
+};
+
+export const deleteVideoController = async (req, res) => {
+  try {
+    const video = await videoModel.findByIdAndDelete(req.params.videoId);
+
+    return res.send(video);
+  } catch (error) {
+    return serverError(res, error, "Error deleting video!");
   }
 };
 
@@ -181,5 +192,37 @@ export const toggleLikeOnVideo = async (req, res) => {
     return res.send(likes);
   } catch (error) {
     return serverError(res, error, "Error While Like/remove Like!");
+  }
+};
+
+export const searchVideosChannels = async (req, res) => {
+  try {
+    let { q } = req.query;
+
+    // q = q.toLowerCase();
+
+    const videos = await videoModel
+      .find({
+        title: { $regex: q, $options: "i" },
+      })
+      .populate("channel");
+
+    let videoResults = videos.map((video) => ({
+      _id: video.id,
+      title: video.title,
+      thumbnailData: video.thumbnail.data.toString("base64"),
+      thumbnailContentType: video.thumbnail.type,
+      channel: video.channel,
+      views: video.views,
+      createdAt: video.createdAt,
+    }));
+
+    const channelResults = await channelModel.find({
+      name: { $regex: q, $options: "i" },
+    });
+
+    res.send({ videos: videoResults, channels: channelResults });
+  } catch (error) {
+    return serverError(res, error, "Error while searching!");
   }
 };

@@ -17,6 +17,12 @@ const channelSchema = new mongoose.Schema(
         ref: "videos",
       },
     ],
+    subscribers: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "users",
+      },
+    ],
   },
   { timestamps: true }
 );
