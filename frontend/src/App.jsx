@@ -6,6 +6,7 @@ import Subscriptions from "./pages/Subscriptions/Subscriptions";
 import Auth from "./pages/Auth/Auth";
 import ChannelDetails from "./pages/ChannelDetails/ChannelDetails";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import SearchFeed from "./pages/SearchFeed/SearchFeed";
 
 function App() {
   return (
@@ -17,11 +18,9 @@ function App() {
         <Route path="/feed/subscriptions" element={<Subscriptions />} />
         {/* <Route path="/feed/you" element={} /> */}
         <Route path="/accounts/*" element={<Auth />} />
-        <Route path="/channel/:channelId" element={<Dashboard />} />
-        <Route
-          path="/channel/details/:channelId"
-          element={<ChannelDetails />}
-        />
+        <Route path="/studio/channel/:channelId" element={<Dashboard />} />
+        <Route path="/channel/:channelId" element={<ChannelDetails />} />
+        <Route path="/search/:query" element={<SearchFeed />} />
       </Routes>
     </BrowserRouter>
   );

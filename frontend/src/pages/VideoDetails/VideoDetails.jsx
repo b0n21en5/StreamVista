@@ -1,37 +1,46 @@
 import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { FaAngleDown } from "react-icons/fa6";
 import axios from "axios";
 import {
   allVideosRoute,
   likeVideoRoute,
   profilePicRoute,
+  subscribeUserRoute,
+  updateChannelRoute,
   videoDetailsRoute,
 } from "../../utills/apiRoutes";
 import { useParams } from "react-router-dom";
 import Video from "../../components/Video/Video";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../store/userSlice";
 import styles from "./VideoDetails.module.css";
 
 const VideoDetails = () => {
   const [video, setVideo] = useState({});
   const [similarVideos, setSimilarVideos] = useState([]);
 
-  const [isLiked, setIsLiked] = useState(false);
+  const [isDone, setIsDone] = useState({ like: false, subscribe: false });
 
   const { videoId } = useParams();
 
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const fetchVideoDetails = async () => {
     try {
       const { data } = await axios.get(`${videoDetailsRoute}/${videoId}`);
       setVideo(data);
-      if (data.likes.includes(user._id)) {
-        setIsLiked(true);
-      } else {
-        setIsLiked(false);
-      }
+
+      setIsDone((p) => ({
+        ...p,
+        like: data?.likes.includes(user?._id) ? true : false,
+        subscribe: data?.channel?.subscribers.includes(user?._id)
+          ? true
+          : false,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -62,11 +71,35 @@ const VideoDetails = () => {
         `${likeVideoRoute}/${videoId}?${likeQry}=${user._id}`
       );
       setVideo((p) => ({ ...p, likes: data }));
-      if (data.includes(user._id)) {
-        setIsLiked(true);
-      } else {
-        setIsLiked(false);
+
+      setIsDone((p) => ({
+        ...p,
+        like: data?.includes(user?._id) ? true : false,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChannelSubscribe = async (subQry) => {
+    try {
+      const { data } = await axios.put(
+        `${updateChannelRoute}/${video?.channel?._id}`,
+        { [subQry]: user?._id }
+      );
+
+      if (data) {
+        const updatedUser = await axios.put(
+          `${subscribeUserRoute}/${user?._id}?${subQry}=${data._id}`
+        );
+        console.log(updatedUser.data);
+        dispatch(setUser(updatedUser.data));
       }
+      setVideo((p) => ({ ...p, channel: data }));
+      setIsDone((p) => ({
+        ...p,
+        subscribe: data?.subscribers.includes(user?._id) ? true : false,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -88,14 +121,41 @@ const VideoDetails = () => {
               <div className={styles.imgCnt}>
                 <img
                   width={40}
+                  height={40}
                   src={`${profilePicRoute}/${video.channel?.userId}`}
                   alt="channel logo"
                 />
               </div>
-              <span className={styles.title}>{video.channel?.name}</span>
+              {/* Channel detail container */}
+              <div>
+                <span className={styles.title}>{video.channel?.name}</span>
+                <div className={styles.subCount}>
+                  {video?.channel?.subscribers?.length} subscribers
+                </div>
+              </div>
+
+              {/* Subscriber button */}
+              {isDone.subscribe ? (
+                <div
+                  className={`${styles.subBtn} ${styles.subscribed}`}
+                  onClick={() => handleChannelSubscribe("unSubscribe")}
+                >
+                  <IoMdNotificationsOutline />
+                  Subscribed
+                  <FaAngleDown />
+                </div>
+              ) : (
+                <div
+                  className={styles.subBtn}
+                  onClick={() => handleChannelSubscribe("subscribe")}
+                >
+                  Subscribe
+                </div>
+              )}
             </div>
+
             <div className={styles.likes}>
-              {isLiked ? (
+              {isDone.like ? (
                 <AiFillLike onClick={() => handleVideoLike("removeLikedId")} />
               ) : (
                 <AiOutlineLike onClick={() => handleVideoLike("likedId")} />

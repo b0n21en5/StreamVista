@@ -11,6 +11,9 @@
 /* Styles for category section */
 .catCnt {
   padding: 0 2.5rem;
+  background-color: #0f0f0f;
+  position: sticky;
+  top: 56px;
   display: flex;
 }
 

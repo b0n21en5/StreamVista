@@ -28,7 +28,7 @@ const UserMenu = ({ section, setIsVisible }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <Link
-            to={`/channel/${user?.channel?._id}`}
+            to={`/studio/channel/${user?.channel?._id}`}
             className={styles.menuItem}
             onClick={() => setIsVisible((p) => ({ ...p, upload: false }))}
           >
@@ -62,7 +62,7 @@ const UserMenu = ({ section, setIsVisible }) => {
               <div className={styles.userName}>{user?.name}</div>
               <div className={styles.userName}>{user?.email}</div>
               <Link
-                to={`/channel/details/${user?.channel?._id}`}
+                to={`/channel/${user?.channel?._id}`}
                 onClick={() => setIsVisible((p) => ({ ...p, menu: false }))}
               >
                 View your cahnnel

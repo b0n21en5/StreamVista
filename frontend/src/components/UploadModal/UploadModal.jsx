@@ -3,13 +3,24 @@ import { RxCross1 } from "react-icons/rx";
 import { useEffect, useRef, useState } from "react";
 import { MdFileUpload, MdOutlineFeedback } from "react-icons/md";
 import { LuGalleryThumbnails } from "react-icons/lu";
-import { addVideoRoute, updateChannelRoute } from "../../utills/apiRoutes";
+import {
+  addVideoRoute,
+  deleteVideoRoute,
+  updateChannelRoute,
+  updateVideoRoute,
+  videoDetailsRoute,
+} from "../../utills/apiRoutes";
 import axios from "axios";
 
 import styles from "./UploadModal.module.css";
 import { useParams } from "react-router-dom";
 
-const UploadModal = ({ setIsVisible }) => {
+const UploadModal = ({
+  section = "",
+  setIsVisible,
+  video,
+  navigateContent,
+}) => {
   const [postData, setPostData] = useState({
     title: "",
     category: "",
@@ -17,25 +28,29 @@ const UploadModal = ({ setIsVisible }) => {
     video: "",
     thumbnail: "",
   });
+  const [previewUrl, setPreviewUrl] = useState({ video: "", thumbnail: "" });
 
   const { channelId } = useParams();
-
-  useEffect(() => {
-    // console.log(postData);
-  }, [postData]);
 
   const handleAddNewVideo = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("title", postData.title);
-      formData.append("video", postData.video);
-      formData.append("thumbnail", postData.thumbnail);
+      if (postData.video) {
+        formData.append("video", postData.video);
+      }
+      if (postData.thumbnail) {
+        formData.append("thumbnail", postData.thumbnail);
+      }
       formData.append("category", postData.category);
       formData.append("description", postData.description);
       formData.append("channel", channelId);
 
-      const newVideo = await axios.post(addVideoRoute, formData);
+      const newVideo =
+        section === ""
+          ? await axios.post(addVideoRoute, formData)
+          : await axios.put(updateVideoRoute, formData);
 
       if (newVideo.data) {
         const { data } = await axios.put(`${updateChannelRoute}/${channelId}`, {
@@ -43,6 +58,64 @@ const UploadModal = ({ setIsVisible }) => {
         });
         console.log(data);
       }
+      navigateContent();
+      setIsVisible((p) => ({ ...p, upload: false }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFileChange = (e, fieldName) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      // Using FileReader to read the file and generate a preview URL
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setPostData((p) => ({ ...p, [fieldName]: file }));
+        setPreviewUrl((p) => ({ ...p, [fieldName]: reader.result }));
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const fetchVideoDetails = async () => {
+    try {
+      const { data } = await axios.get(`${videoDetailsRoute}/${video._id}`);
+      setPreviewUrl((p) => ({
+        ...p,
+        video: `data:${data.videoContentType};base64,${data.videoData}`,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (video) {
+      setPostData({
+        title: video.title,
+        description: video.description,
+        category: video.category,
+        video: "",
+        thumbnail: "",
+      });
+
+      setPreviewUrl((p) => ({
+        ...p,
+        thumbnail: `data:${video.thumbnailContentType};base64,${video.thumbnailData}`,
+      }));
+
+      fetchVideoDetails();
+    }
+  }, [video]);
+
+  const handleDeleteVideo = async () => {
+    try {
+      const { data } = await axios.delete(`${deleteVideoRoute}/${video._id}`);
+      console.log(data);
       setIsVisible((p) => ({ ...p, upload: false }));
     } catch (error) {
       console.log(error);
@@ -76,14 +149,19 @@ const UploadModal = ({ setIsVisible }) => {
               id="vidInput"
               className={styles.hidden}
               accept="video/*"
-              onChange={(e) =>
-                setPostData((p) => ({ ...p, video: event.target.files[0] }))
-              }
+              onChange={(e) => handleFileChange(e, "video")}
               required
             />
-            <label htmlFor="vidInput" className={styles.uploadIcon}>
-              <MdFileUpload />
-            </label>
+            {previewUrl.video ? (
+              <video controls width="200" height="200">
+                <source src={previewUrl.video} type={postData.video.type} />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <label htmlFor="vidInput" className={styles.uploadIcon}>
+                <MdFileUpload />
+              </label>
+            )}
             <label className={styles.uploadBtn} htmlFor="vidInput">
               SELECT VIDEO
             </label>
@@ -101,14 +179,21 @@ const UploadModal = ({ setIsVisible }) => {
               accept="image/*"
               id="thumbInput"
               className={styles.hidden}
-              onChange={(e) =>
-                setPostData((p) => ({ ...p, thumbnail: e.target.files[0] }))
-              }
+              onChange={(e) => handleFileChange(e, "thumbnail")}
               required
             />
-            <label htmlFor="thumbInput" className={styles.uploadIcon}>
-              <LuGalleryThumbnails />
-            </label>
+            {previewUrl.thumbnail ? (
+              <img
+                src={previewUrl.thumbnail}
+                width={200}
+                height={200}
+                alt="thumbnail preview"
+              />
+            ) : (
+              <label htmlFor="thumbInput" className={styles.uploadIcon}>
+                <LuGalleryThumbnails />
+              </label>
+            )}
             <label className={styles.uploadBtn} htmlFor="thumbInput">
               SELECT THUMBNAIL
             </label>
@@ -127,6 +212,7 @@ const UploadModal = ({ setIsVisible }) => {
               onChange={(e) =>
                 setPostData((p) => ({ ...p, title: e.target.value }))
               }
+              value={postData?.title}
               required
             />
             <input
@@ -136,6 +222,7 @@ const UploadModal = ({ setIsVisible }) => {
               onChange={(e) =>
                 setPostData((p) => ({ ...p, category: e.target.value }))
               }
+              value={postData?.category}
               required
             />
             <textarea
@@ -147,6 +234,7 @@ const UploadModal = ({ setIsVisible }) => {
               onChange={(e) =>
                 setPostData((p) => ({ ...p, description: e.target.value }))
               }
+              value={postData?.description}
               required
             />
           </div>
@@ -165,8 +253,17 @@ const UploadModal = ({ setIsVisible }) => {
             className={styles.uploadBtn}
             onClick={(e) => handleAddNewVideo(e)}
           >
-            Upload Now
+            {section === "" ? "Upload Now" : "Update Video"}
           </button>
+          {section !== "" && (
+            <button
+              type="submit"
+              className={`${styles.uploadBtn} ${styles.deleteBtn}`}
+              onClick={(e) => handleDeleteVideo(e)}
+            >
+              Delete Video
+            </button>
+          )}
         </div>
       </form>
     </div>,
