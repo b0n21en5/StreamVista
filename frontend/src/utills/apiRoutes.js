@@ -9,6 +9,8 @@ export const updateUserRoute = `${host}/api/v1/users/update-user`;
 export const profilePicRoute = `${host}/api/v1/users/profile-picture`; // params: userId
 export const subscribeUserRoute = `${host}/api/v1/users/subscribe`; // params: userId
 export const subscribedChannelsRoute = `${host}/api/v1/users/subscribed-channels`; // params: userId
+// params: userId && query: addId or removeId
+export const watchLaterRoute = `${host}/api/v1/users/watch-list`;
 
 // channel routes
 export const createChannelRoute = `${host}/api/v1/channels/create`;
@@ -26,3 +28,7 @@ export const videoDetailsRoute = `${host}/api/v1/videos/video-details`; // param
 export const allCategoriesRoute = `${host}/api/v1/videos/get-categories`;
 export const allVideosRoute = `${host}/api/v1/videos/get-all`; // query: category
 export const searchVideosChannelsRoute = `${host}/api/v1/videos/search`; // query: q
+export const likedVideosRoute = `${host}/api/v1/videos/liked-videos`; // params: userId
+// param: videoid && query: userId & message or messageId
+export const updateCommentsRoute = `${host}/api/v1/videos/comments`;
+export const allCommentsRoute = `${host}/api/v1/videos/all-comments`; // param: videoid

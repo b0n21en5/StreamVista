@@ -1,7 +1,9 @@
 .navCnt {
   height: 56px;
-  padding: 0 1rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
   background-color: #0f0f0f;
+  z-index: 999;
   position: sticky;
   top: 0;
   display: flex;

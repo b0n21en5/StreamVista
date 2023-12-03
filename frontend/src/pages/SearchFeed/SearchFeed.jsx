@@ -10,6 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 import styles from "./SearchFeed.module.css";
+import Subscribe from "../../components/SubscribeButton/Subscribe";
 
 const SearchFeed = () => {
   const [results, setResults] = useState({
@@ -80,9 +81,14 @@ const SearchFeed = () => {
                     </div>
 
                     <div className={styles.info}>
-                      <div>{channel.name}</div>
-                      {/* <div>{channel.name}</div> */}
+                      <div className={styles.channelName}>{channel.name}</div>
+                      <div className={styles.subCount}>
+                        {channel.subscribers?.length} subscribers
+                      </div>
                     </div>
+
+                    {/* Subscribe button */}
+                    <Subscribe channelId={channel._id} />
                   </Link>
                 ))}
               </div>

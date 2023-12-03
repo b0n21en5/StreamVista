@@ -12,11 +12,12 @@ import {
   updateChannelRoute,
   videoDetailsRoute,
 } from "../../utills/apiRoutes";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Video from "../../components/Video/Video";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/userSlice";
 import styles from "./VideoDetails.module.css";
+import Comments from "../../components/Comments/Comments";
 
 const VideoDetails = () => {
   const [video, setVideo] = useState({});
@@ -116,19 +117,28 @@ const VideoDetails = () => {
         <div className={styles.videoDetails}>
           <div className={styles.title}>{video.title}</div>
 
+          {/* Channel details section */}
           <div className={styles.ctaCnt}>
             <div className={styles.channel}>
-              <div className={styles.imgCnt}>
+              <Link
+                to={`/channel/${video?.channel?._id}`}
+                className={styles.imgCnt}
+              >
                 <img
                   width={40}
                   height={40}
                   src={`${profilePicRoute}/${video.channel?.userId}`}
                   alt="channel logo"
                 />
-              </div>
+              </Link>
               {/* Channel detail container */}
               <div>
-                <span className={styles.title}>{video.channel?.name}</span>
+                <Link
+                  to={`/channel/${video?.channel?._id}`}
+                  className={styles.title}
+                >
+                  {video.channel?.name}
+                </Link>
                 <div className={styles.subCount}>
                   {video?.channel?.subscribers?.length} subscribers
                 </div>
@@ -164,10 +174,14 @@ const VideoDetails = () => {
             </div>
           </div>
 
+          {/* Video description section */}
           <div className={styles.descriptionCnt}>
             <div className={styles.views}>{video.views} views</div>
             <div className={styles.description}>{video.description}</div>
           </div>
+
+          {/* Comments section */}
+          <Comments />
         </div>
       </div>
 

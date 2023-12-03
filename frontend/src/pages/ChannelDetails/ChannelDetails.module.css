@@ -36,6 +36,11 @@
   font-size: 2rem;
 }
 
+.detCnt .subCount {
+  font-size: 0.94rem;
+  color: rgb(175, 175, 175);
+}
+
 /* Styles for videos container */
 .videosCnt {
   width: 100%;

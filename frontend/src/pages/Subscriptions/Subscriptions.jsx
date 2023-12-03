@@ -2,16 +2,12 @@ import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import {
   profilePicRoute,
-  subscribeUserRoute,
   subscribedChannelsRoute,
-  updateChannelRoute,
 } from "../../utills/apiRoutes";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { FaAngleDown } from "react-icons/fa6";
-import { setUser } from "../../store/userSlice";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Subscribe from "../../components/SubscribeButton/Subscribe";
 
 import styles from "./Subscriptions.module.css";
 
@@ -19,7 +15,6 @@ const Subscriptions = () => {
   const [subscribedChannels, setSubscribedChannels] = useState([]);
 
   const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const fetchAllSubscribedChannels = async () => {
     try {
@@ -36,23 +31,6 @@ const Subscriptions = () => {
   useEffect(() => {
     fetchAllSubscribedChannels();
   }, []);
-
-  const handleChannelSubscribe = async (subQry, channelId) => {
-    try {
-      const { data } = await axios.put(`${updateChannelRoute}/${channelId}`, {
-        [subQry]: user?._id,
-      });
-
-      if (data) {
-        const updatedUser = await axios.put(
-          `${subscribeUserRoute}/${user?._id}?${subQry}=${data._id}`
-        );
-        dispatch(setUser(updatedUser.data));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className={styles.mainCnt}>
@@ -82,25 +60,7 @@ const Subscriptions = () => {
             </div>
 
             {/* Subscribe button */}
-            {user?.subscribed?.includes(channel._id) ? (
-              <div
-                className={`${styles.subBtn} ${styles.subscribed}`}
-                onClick={() =>
-                  handleChannelSubscribe("unSubscribe", channel._id)
-                }
-              >
-                <IoMdNotificationsOutline />
-                Subscribed
-                <FaAngleDown />
-              </div>
-            ) : (
-              <div
-                className={styles.subBtn}
-                onClick={() => handleChannelSubscribe("subscribe", channel._id)}
-              >
-                Subscribe
-              </div>
-            )}
+            <Subscribe channelId={channel?._id} />
           </Link>
         ))}
       </div>

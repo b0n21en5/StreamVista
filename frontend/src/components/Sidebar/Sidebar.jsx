@@ -23,9 +23,9 @@ const Sidebar = () => {
         )}
         <div className={styles.text}>Subscriptions</div>
       </Link>
-      <Link to="/feed/you" className={styles.sideItem}>
-        {path === "/feed/you" ? <AiFillPlaySquare /> : <LuPlaySquare />}
-        <div className={styles.text}>You</div>
+      <Link to="/feed/library" className={styles.sideItem}>
+        {path === "/feed/library" ? <AiFillPlaySquare /> : <LuPlaySquare />}
+        <div className={styles.text}>Library</div>
       </Link>
     </div>
   );

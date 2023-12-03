@@ -1,26 +1,46 @@
 import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { profilePicRoute } from "../../utills/apiRoutes";
+import { profilePicRoute, watchLaterRoute } from "../../utills/apiRoutes";
 import { Link } from "react-router-dom";
 import { TbUserSquare } from "react-icons/tb";
-import { MdLogout } from "react-icons/md";
-import { removeUser } from "../../store/userSlice";
+import { MdLogout, MdOutlineWatchLater } from "react-icons/md";
+import { removeUser, setUser } from "../../store/userSlice";
 import { GoVideo } from "react-icons/go";
 import { CiStreamOn } from "react-icons/ci";
+import axios from "axios";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 import styles from "./UserMenu.module.css";
 
-const UserMenu = ({ section, setIsVisible }) => {
+const UserMenu = ({ section, setIsVisible, videoId }) => {
   const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
+  const handleAddToWatchLater = async (qry) => {
+    try {
+      const { data } = await axios.put(
+        `${watchLaterRoute}/${user?._id}?${qry}=${videoId}`
+      );
+      dispatch(setUser(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return ReactDOM.createPortal(
     <div
       className={styles.userMenuModalOverlay}
-      onClick={() =>
-        setIsVisible((p) => ({ ...p, menu: false, upload: false }))
-      }
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsVisible((p) => ({
+          ...p,
+          menu: false,
+          upload: false,
+          confirm: false,
+        }));
+      }}
     >
       {section === "upload" ? (
         <div
@@ -43,6 +63,38 @@ const UserMenu = ({ section, setIsVisible }) => {
             <CiStreamOn />
             <span>Go live</span>
           </Link>
+        </div>
+      ) : section === "more" ? (
+        <div
+          className={`${styles.uploadModal} ${styles.moreModal}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          {!user?.watchList?.includes(videoId) ? (
+            <div
+              className={styles.menuItem}
+              onClick={() => {
+                handleAddToWatchLater("addId");
+                setIsVisible((p) => ({ ...p, confirm: false }));
+              }}
+            >
+              <MdOutlineWatchLater />
+              <span>Save to Watch later</span>
+            </div>
+          ) : (
+            <div
+              className={styles.menuItem}
+              onClick={() => {
+                handleAddToWatchLater("removeId");
+                setIsVisible((p) => ({ ...p, confirm: false }));
+              }}
+            >
+              <RiDeleteBinLine />
+              <span>Remove from Watch later</span>
+            </div>
+          )}
         </div>
       ) : (
         <div
