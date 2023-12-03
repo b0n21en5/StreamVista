@@ -1,0 +1,116 @@
+.mainCnt {
+}
+
+/* styles for comments heading */
+.mainCnt .heading {
+  font-size: 1.4rem;
+  padding: 1.5rem 0;
+  display: flex;
+  gap: 5px;
+}
+
+/* Styles for message section */
+.mainCnt .messCnt {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.messCnt .logoCnt {
+  width: 40px;
+  height: 40px;
+}
+
+.logoCnt img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.messCnt input {
+  font-size: 1rem;
+  width: 600px;
+  padding-bottom: 5px;
+  border: none;
+  border-bottom: 1px solid #ffffff30;
+  background-color: transparent;
+}
+
+.messCnt input:focus {
+  outline: none;
+  border-bottom: 2px solid #fff;
+}
+
+.messCnt .detCnt {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detCnt .name {
+  color: #ffffff90;
+  font-size: 0.85rem;
+}
+
+.detCnt .ctaCnt {
+  margin-top: 5px;
+  display: flex;
+  gap: 10px;
+}
+
+.ctaCnt svg {
+  cursor: pointer;
+}
+
+/* Comment buttons for new comment */
+.commBtnCnt {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commBtnCnt svg{
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.commBtnCnt .btnCnt {
+  display: flex;
+  gap: 10px;
+}
+
+.btnCnt .btn {
+  font-size: 0.9rem;
+  font-weight: 500;
+  height: max-content;
+  padding: 0.5rem 1rem;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.btnCnt .btn:hover {
+  background-color: #ffffff20;
+}
+
+.btnCnt .commBtn {
+    color: #000;
+  background-color: #3ea6ff;
+}
+
+.btnCnt .commBtn:hover{
+    background-color: #58b0fd;
+
+}
+
+/* All comments section */
+.mainCnt .allCommCnt {
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.mainCnt .allCommCnt .messCnt input {
+  color: #fff;
+  border: none;
+}

@@ -1,10 +1,15 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 import { profilePicRoute } from "../../utills/apiRoutes";
 import moment from "moment";
+import { RxDotFilled } from "react-icons/rx";
+import { RiMore2Fill } from "react-icons/ri";
+import { useState } from "react";
+import UserMenu from "../UserMenu/UserMenu";
 import styles from "./Video.module.css";
-import { LuDot } from "react-icons/lu";
 
 const Video = ({ video }) => {
+  const [isVisible, setIsVisible] = useState({ confirm: false });
+
   const path = useLocation().pathname.split("/")[1];
 
   return (
@@ -15,7 +20,7 @@ const Video = ({ video }) => {
           ? ""
           : path === "watch"
           ? styles.simVid
-          : path === "channel"
+          : path === "channel" || path === "feed"
           ? styles.chaVid
           : styles.search
       }`}
@@ -24,50 +29,77 @@ const Video = ({ video }) => {
         <img
           src={`data:${video.thumbnailContentType};base64,${video.thumbnailData}`}
           width={371}
+          height={209}
           alt="video thumbnail"
         />
       </div>
 
       <div className={styles.vidInfoCnt}>
         {path === "" && (
-          <div className={styles.logoCnt}>
+          <Link
+            to={`/channel/${video.channel?._id}`}
+            className={styles.logoCnt}
+          >
             <img
               src={`${profilePicRoute}/${video.channel?.userId}`}
               width={35}
               height={35}
               alt="channel logo"
             />
-          </div>
+          </Link>
         )}
         <div className={styles.videoInfo}>
           <div className={styles.title}>
-            {path === "search"
-              ? video.title
-              : video.title.substr(0, 60) +
-                `${video.title.length > 60 ? "..." : ""}`}
+            <span>
+              {path === "search"
+                ? video.title
+                : video.title.substr(0, 60) +
+                  `${video.title.length > 60 ? "..." : ""}`}
+            </span>
+            <RiMore2Fill
+              className={styles.moreBtn}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsVisible((p) => ({ ...p, confirm: !isVisible.confirm }));
+              }}
+            />
+            {isVisible.confirm && (
+              <UserMenu section="more" setIsVisible={setIsVisible} videoId={video?._id} />
+            )}
           </div>
           {path !== "search" && (
-            <div className={styles.channel}>{video.channel?.name}</div>
+            <Link
+              to={`/channel/${video.channel?._id}`}
+              className={styles.channel}
+            >
+              {video.channel?.name}
+            </Link>
           )}
           <div className={styles.channel}>
             {video.views} views
-            <LuDot />
+            <RxDotFilled />
             {moment(video.createdAt).fromNow()}
           </div>
 
           {/* channel logo for search page */}
           {path === "search" && (
-            <div className={styles.searchChannel}>
-              <div className={styles.logoCnt}>
-                <img
-                  src={`${profilePicRoute}/${video.channel?.userId}`}
-                  width={25}
-                  height={25}
-                  alt="channel logo"
-                />
+            <>
+              <div className={styles.searchChannel}>
+                <div className={styles.logoCnt}>
+                  <img
+                    src={`${profilePicRoute}/${video.channel?.userId}`}
+                    width={25}
+                    height={25}
+                    alt="channel logo"
+                  />
+                </div>
+                <div className={styles.channel}>{video.channel?.name}</div>
               </div>
-              <div className={styles.channel}>{video.channel?.name}</div>
-            </div>
+              <div className={styles.vidDesc}>
+                {video.description.substr(0, 120) + "..."}
+              </div>
+            </>
           )}
         </div>
       </div>

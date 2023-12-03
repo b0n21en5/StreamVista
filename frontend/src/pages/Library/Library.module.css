@@ -1,0 +1,84 @@
+.libCnt {
+  display: flex;
+}
+
+.libCnt .page {
+  padding: 1.5rem 3.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles for user account section */
+.page .userDet {
+  color: #ffffff90;
+  padding-bottom: 2rem;
+  display: flex;
+}
+
+.userDet .logoCnt {
+  width: 120px;
+  height: 120px;
+}
+
+.logoCnt img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.userDet .det {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.det .name {
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+.det a {
+  font-size: 0.85rem;
+  width: max-content;
+  padding: 0.5rem;
+  border-radius: 40px;
+  background-color: #ffffff20;
+}
+
+/* Styles for likes section */
+.likesCnt {
+  width: 82vw;
+  height: 268px;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(114, 114, 114, 0.425);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.likesCnt .heading {
+  font-size: 1.2rem;
+  color: #cfcfcf;
+  display: flex;
+  gap: 10px;
+}
+
+.heading .txt {
+  color: #fff;
+  font-weight: 600;
+}
+
+.heading svg {
+  font-size: 1.4rem;
+}
+
+.likesCnt .likedVidCnt {
+  overflow: auto;
+  display: flex;
+  gap: 15px;
+}
+
+.likesCnt .likedVidCnt::-webkit-scrollbar {
+  height: 0px;
+}

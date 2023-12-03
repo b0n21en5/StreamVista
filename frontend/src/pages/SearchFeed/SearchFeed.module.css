@@ -46,6 +46,15 @@
   flex-direction: column;
 }
 
+.channel .info .channelName {
+  font-size: 1.2rem;
+}
+
+.channel .info .subCount {
+  color: #ffffff80;
+  font-size: 0.75rem;
+}
+
 /* Utills */
 .bdBtm {
   min-width: 85vw;

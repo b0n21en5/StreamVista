@@ -2,15 +2,9 @@
   display: flex;
 }
 
-.videosCnt {
-  width: 370px;
-  height: 100%;
-  padding: 10px;
-}
-
 /* Styles for category section */
 .catCnt {
-  padding: 0 2.5rem;
+  padding: 0 1.5rem;
   background-color: #0f0f0f;
   position: sticky;
   top: 56px;
@@ -18,11 +12,12 @@
 }
 
 .catCnt .cat {
+  font-size: 0.85rem;
   font-weight: 600;
   height: 32px;
   padding: 0 12px;
   margin: 12px 12px 12px 0;
-  background-color: #ffffff37;
+  background-color: #ffffff20;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
@@ -34,9 +29,10 @@
   background-color: #fffffff3;
 }
 
+/* Videos container */
 .videosCnt {
-  width: 93%;
-  padding: 0 2.5rem;
+  height: 100%;
+  padding: 0 1.5rem;
   margin-top: 1.5rem;
   display: flex;
   flex-wrap: wrap;

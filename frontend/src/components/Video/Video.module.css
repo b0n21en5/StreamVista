@@ -1,9 +1,9 @@
 .video {
-  width: 355px;
+  width: 370px;
 }
 
 .video .imgCnt {
-  width: 355px;
+  width: 370px;
   height: 209px;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .vidInfoCnt {
-  padding-top: 20px;
+  padding-top: 10px;
   display: flex;
   gap: 12px;
 }
@@ -33,15 +33,26 @@
 }
 
 .videoInfo .title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 10px;
   display: flex;
   gap: 12px;
 }
 
+.videoInfo .title svg {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 40px;
+}
+
+.videoInfo .title svg:hover {
+  background-color: #ffffff20;
+}
+
 .videoInfo .channel {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: rgb(181, 181, 181);
 }
 
@@ -124,16 +135,24 @@
 }
 
 .search .imgCnt {
+  width: 360px;
   height: 202px;
   padding-top: 0.75rem;
   padding-right: 0.75rem;
 }
 
+.search .imgCnt img {
+  width: 360px;
+  height: 202px;
+}
+
 .search .vidInfoCnt {
+  width: 720px;
   padding-top: 0.78rem;
 }
 
 .search .videoInfo .title {
+  justify-content: space-between;
   margin-bottom: 0;
 }
 
@@ -144,10 +163,15 @@
   align-items: center;
 }
 
-.search .searchChannel .logoCnt{
+.search .searchChannel .logoCnt {
   height: 25px;
 }
 
 .search .searchChannel .channel {
   font-size: 0.75rem;
+}
+
+.search .vidDesc {
+  font-size: 0.75rem;
+  color: #aaa;
 }

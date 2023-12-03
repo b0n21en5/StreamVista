@@ -10,6 +10,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Video from "../../components/Video/Video";
 import { useParams } from "react-router-dom";
+import { RxDotFilled } from "react-icons/rx";
+import Subscribe from "../../components/SubscribeButton/Subscribe";
 
 import styles from "./ChannelDetails.module.css";
 
@@ -21,6 +23,8 @@ const ChannelDetails = () => {
   });
 
   const { channelId } = useParams();
+
+  const { user } = useSelector((state) => state.user);
 
   const fetchChannelDetails = async () => {
     try {
@@ -47,6 +51,10 @@ const ChannelDetails = () => {
     fetchChannelVideos();
   }, []);
 
+  useEffect(() => {
+    fetchChannelDetails();
+  }, [user?.subscribed]);
+
   return (
     <div className={styles.mainCnt}>
       <Sidebar />
@@ -70,6 +78,12 @@ const ChannelDetails = () => {
           {/* Channel details */}
           <div className={styles.detCnt}>
             <div className={styles.name}>{fetched?.channel?.name}</div>
+            <div className={styles.subCount}>
+              {fetched?.channel?.subscribers?.length} subscribers
+              <RxDotFilled />
+              {fetched?.channel?.videos?.length} videos
+            </div>
+            <Subscribe channelId={fetched?.channel?._id} />
           </div>
         </div>
 

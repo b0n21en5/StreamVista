@@ -1,0 +1,96 @@
+.sidebarModalOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #0000006f;
+  opacity: 0;
+  animation: slideIn 0.3s ease-in-out forwards;
+}
+
+.sidebarModalOverlay .sidebarModal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  min-width: 224px;
+  background-color: #0f0f0f;
+  animation: none;
+}
+
+/*  */
+.navLeft {
+  display: flex;
+  align-items: center;
+}
+
+.moreBtn {
+  width: 20px;
+  height: 20px;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.moreBtn:hover {
+  background-color: #ffffff32;
+}
+
+/* styles for logo container */
+.logoCnt {
+  padding: 16px 18px 14px;
+}
+
+.logoCnt .logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* Styles for side bar items */
+.sideItemsCnt {
+  margin: 10px;
+  padding-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #ffffff20;
+}
+
+.sideItem {
+  width: 180px;
+  height: 34px;
+  padding: 0.25rem 1rem;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sideItem:hover {
+  background-color: rgba(128, 128, 128, 0.29);
+}
+
+.sideItem svg {
+  width: 24px;
+  height: 24px;
+}
+
+.sideItem .text {
+  font-size: 0.85rem;
+}
+
+/* keyframe animation for slide-in from the left */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

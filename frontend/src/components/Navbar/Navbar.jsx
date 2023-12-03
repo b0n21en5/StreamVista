@@ -10,12 +10,15 @@ import { useEffect, useRef, useState } from "react";
 import UserMenu from "../UserMenu/UserMenu";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import styles from "./Navbar.module.css";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import SidebarModal from "../SidebarModal/SidebarModal";
 
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState({
     menu: false,
     channel: false,
     upload: false,
+    sidebar: false,
   });
   const [search, setSearch] = useState({ query: "", isActive: false });
 
@@ -44,12 +47,18 @@ const Navbar = () => {
   return (
     <div className={styles.navCnt}>
       <div className={styles.navLeft}>
-        <RxHamburgerMenu className={styles.moreBtn} />
+        <RxHamburgerMenu
+          className={styles.moreBtn}
+          onClick={() =>
+            setIsVisible((p) => ({ ...p, sidebar: !isVisible.sidebar }))
+          }
+        />
         <Link to="/" className={styles.logoCnt}>
           <img src={logo} height={20} alt="logo" />
           <span className={styles.logoText}>StreamVista</span>
         </Link>
       </div>
+      {isVisible.sidebar && <SidebarModal setIsVisible={setIsVisible} />}
 
       <form className={styles.searchCnt} onSubmit={handleSearchVideosChannels}>
         <div className={styles.searchBar}>
@@ -104,6 +113,8 @@ const Navbar = () => {
                 }
               />
             )}
+
+            <IoMdNotificationsOutline />
 
             <div
               className={styles.imgCnt}
