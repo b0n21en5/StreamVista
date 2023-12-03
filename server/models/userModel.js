@@ -38,6 +38,12 @@ const userSchema = new mongoose.Schema(
         ref: "channels",
       },
     ],
+    watchList: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "videos",
+      },
+    ],
   },
   { timestamps: true }
 );

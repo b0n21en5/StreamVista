@@ -6,6 +6,13 @@ import {
   registerController,
   resetPassword,
   toogleChannelSubscribe,
+  getSubscribedChannelDetails,
+  getWatchListVideos,
+  loginController,
+  registerController,
+  resetPassword,
+  toogleChannelSubscribe,
+  updateWatchListcontroller,
   updatedUserController,
 } from "../controllers/userControllers.js";
 import formidableMiddleware from "express-formidable";
@@ -19,5 +26,8 @@ router.put("/update-user", formidableMiddleware(), updatedUserController);
 router.put("/subscribe/:userId", toogleChannelSubscribe);
 router.get("/profile-picture/:uid", getProfilePic);
 router.get("/subscribed-channels/:userId", getSubscribedChannelDetails);
+
+router.put("/watch-list/:userId", updateWatchListcontroller); //query: addId or removeId
+router.get("/watch-list/:userId", getWatchListVideos);
 
 export default router;

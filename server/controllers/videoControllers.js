@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { clientError, serverError } from "../helpers/handleErrors.js";
 import channelModel from "../models/channelModel.js";
 import videoModel from "../models/videoModel.js";
@@ -199,8 +200,6 @@ export const searchVideosChannels = async (req, res) => {
   try {
     let { q } = req.query;
 
-    // q = q.toLowerCase();
-
     const videos = await videoModel
       .find({
         title: { $regex: q, $options: "i" },
@@ -210,6 +209,7 @@ export const searchVideosChannels = async (req, res) => {
     let videoResults = videos.map((video) => ({
       _id: video.id,
       title: video.title,
+      description: video.description,
       thumbnailData: video.thumbnail.data.toString("base64"),
       thumbnailContentType: video.thumbnail.type,
       channel: video.channel,
@@ -224,5 +224,75 @@ export const searchVideosChannels = async (req, res) => {
     res.send({ videos: videoResults, channels: channelResults });
   } catch (error) {
     return serverError(res, error, "Error while searching!");
+  }
+};
+
+export const getLikedVideos = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const videos = await videoModel.find({
+      likes: mongoose.Types.ObjectId.createFromHexString(userId),
+    });
+
+    let response = videos.map((video) => ({
+      _id: video.id,
+      title: video.title,
+      thumbnailData: video.thumbnail.data.toString("base64"),
+      thumbnailContentType: video.thumbnail.type,
+      channel: video.channel,
+      views: video.views,
+      createdAt: video.createdAt,
+    }));
+
+    return res.send(response);
+  } catch (error) {
+    return serverError(res, error, "Error fetching liked videos!");
+  }
+};
+
+export const updateVideoComments = async (req, res) => {
+  try {
+    const { videoId } = req.params;
+    const { userId, message, messageId } = req.body;
+
+    const video = await videoModel.findById(videoId);
+    if (!video) {
+      return clientError(res, "No Video Found!");
+    }
+
+    if (messageId) {
+      video.comments = video.comments.filter((mess) => mess._id != messageId);
+    } else {
+      if (!message) {
+        return clientError(res, "Message required!");
+      }
+
+      video.comments.push({ userId: userId, message: message });
+    }
+
+    await video.save();
+
+    return res.send(video.comments);
+  } catch (error) {
+    return serverError(res, "Error while commenting video!");
+  }
+};
+
+export const getVideoComments = async (req, res) => {
+  try {
+    const { videoId } = req.params;
+
+    const allComments = await videoModel
+      .findById(videoId)
+      .populate({
+        path: "comments",
+        populate: { path: "userId", select: "name" },
+      })
+      .select("comments");
+
+    return res.send(allComments);
+  } catch (error) {
+    return serverError(res, error, "Error fetching comments!");
   }
 };
