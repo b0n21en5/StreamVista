@@ -43,7 +43,7 @@ const videoSchema = new mongoose.Schema(
           type: mongoose.Types.ObjectId,
           ref: "users",
         },
-        data: String,
+        message: String,
       },
     ],
   },

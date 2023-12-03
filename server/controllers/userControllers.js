@@ -162,20 +162,22 @@ export const toogleChannelSubscribe = async (req, res) => {
     const user = await userModel.findById(userId).select("-pic");
 
     if (subscribe) {
-      user.subscribed.push(subscribe);
+      if (subscribe && !user.subscribed.includes(subscribe)) {
+        user.subscribed.push(subscribe);
+      }
+
+      if (unSubscribe) {
+        user.subscribed = user.subscribed.filter(
+          (channelId) => channelId.toString() !== unSubscribe
+        );
+      }
+
+      await user.save();
+
+      user.password = "****";
+
+      return res.send(user);
     }
-
-    if (unSubscribe) {
-      user.subscribed = user.subscribed.filter(
-        (channelId) => channelId.toString() !== unSubscribe
-      );
-    }
-
-    await user.save();
-
-    user.password = "****";
-
-    return res.send(user);
   } catch (error) {
     return serverError(res, error, "Error while subscribing!");
   }
@@ -193,5 +195,61 @@ export const getSubscribedChannelDetails = async (req, res) => {
     return res.send(user.subscribed);
   } catch (error) {
     return serverError(res, error, "Error fetching subcribed channel Details!");
+  }
+};
+
+export const updateWatchListcontroller = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { addId, removeId } = req.query;
+
+    const user = await userModel
+      .findById(userId)
+      .populate("channel")
+      .select("-pic -password");
+    if (!user) {
+      return clientError(res, "No User Found!");
+    }
+
+    if (addId && !user.watchList.includes(addId)) {
+      user.watchList.push(addId);
+    }
+
+    if (removeId) {
+      user.watchList = user.watchList.filter(
+        (videoId) => videoId.toString() !== removeId
+      );
+    }
+
+    await user.save();
+
+    return res.send(user);
+  } catch (error) {
+    return serverError(res, error, "Error updating watch list!");
+  }
+};
+
+export const getWatchListVideos = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const userVideos = await userModel
+      .findById(userId)
+      .populate("watchList")
+      .select("watchList");
+
+    let watchListVideos = userVideos.watchList.map((video) => ({
+      _id: video.id,
+      title: video.title,
+      thumbnailData: video.thumbnail.data.toString("base64"),
+      thumbnailContentType: video.thumbnail.type,
+      channel: video.channel,
+      views: video.views,
+      createdAt: video.createdAt,
+    }));
+
+    return res.send(watchListVideos);
+  } catch (error) {
+    return serverError(res, error, "Error Fetching Watch List!");
   }
 };
