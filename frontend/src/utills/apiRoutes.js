@@ -1,4 +1,7 @@
-export const host = "http://localhost:5000";
+export const host =
+  process.env.NODE_ENV === "production"
+    ? "https://stream-vista.onrender.com"
+    : "http://localhost:5000";
 
 // user auth routes
 export const registerRoute = `${host}/api/v1/users/register`;
