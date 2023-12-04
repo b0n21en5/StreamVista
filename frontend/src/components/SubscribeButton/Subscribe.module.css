@@ -22,10 +22,26 @@
 }
 
 /* utills */
-.mt40 {
+.mt {
   margin-top: 40px;
 }
 
-.ml40 {
+.ml {
   margin-left: 40px;
+}
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .subBtn{
+    width: max-content;
+  }
+  
+  /* Utills */
+  .mt {
+    margin-top: 20px;
+  }
+
+  .ml {
+    margin-left: 20px;
+  }
 }

@@ -40,7 +40,7 @@
 }
 
 /* Styles for more modal */
-.userMenuModalOverlay .moreModal{
+.userMenuModalOverlay .moreModal {
   left: 40%;
   top: 20%;
   min-width: 250px;
@@ -90,4 +90,13 @@
 .userMenuModal .itemSec {
   padding: 0.5rem 0;
   border-top: 1px solid rgba(128, 128, 128, 0.441);
+}
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .userMenuModalOverlay .moreModal {
+    right: 10%;
+    min-width: max-content;
+    height: 200px;
+  }
 }

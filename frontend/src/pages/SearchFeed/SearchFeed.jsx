@@ -8,9 +8,11 @@ import Video from "../../components/Video/Video";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import Subscribe from "../../components/SubscribeButton/Subscribe";
+import toast from "react-hot-toast";
+import { RiseLoader } from "react-spinners";
 
 import styles from "./SearchFeed.module.css";
-import Subscribe from "../../components/SubscribeButton/Subscribe";
 
 const SearchFeed = () => {
   const [results, setResults] = useState({
@@ -41,7 +43,7 @@ const SearchFeed = () => {
 
       setResults((p) => ({ ...p, isLoad: false }));
     } catch (error) {
-      console.log(error);
+      toast(error.response.data);
     }
   };
 
@@ -59,7 +61,9 @@ const SearchFeed = () => {
 
       <div className={styles.resultsCnt}>
         {results.isLoad ? (
-          "Loading..."
+          <div className={styles.loader}>
+            <RiseLoader color="white" />
+          </div>
         ) : (
           <>
             {/* Search channel results conatiner */}

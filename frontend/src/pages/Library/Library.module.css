@@ -82,3 +82,72 @@
 .likesCnt .likedVidCnt::-webkit-scrollbar {
   height: 0px;
 }
+
+/* Styles for siign in  */
+.signInCnt {
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signIn {
+  width: 100px;
+  height: 36px;
+  color: #3ea6ff;
+  border: 1px solid rgba(128, 128, 128, 0.662);
+  border-radius: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.signInCnt svg {
+  font-size: 6rem;
+}
+
+.signIn:hover {
+  background-color: #3ea5ff45;
+}
+
+.signInCnt .signIn svg {
+  font-size: 1.2rem;
+}
+
+/* mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .libCnt {
+    flex-direction: column-reverse;
+  }
+
+  .libCnt .page {
+    padding: 1.5rem 1rem;
+    min-height: 87vh;
+  }
+
+  .userDet .logoCnt {
+    width: 80px;
+    height: 80px;
+  }
+
+  .userDet .det{
+    width: max-content;
+  }
+
+  .det .name{
+    font-size: 1.4rem;
+  }
+
+  .logoCnt img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .likesCnt {
+    width: 100%;
+  }
+}

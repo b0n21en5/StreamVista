@@ -1,34 +1,31 @@
 import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { FaAngleDown } from "react-icons/fa6";
 import axios from "axios";
 import {
   allVideosRoute,
+  getVideoRoute,
   likeVideoRoute,
   profilePicRoute,
-  subscribeUserRoute,
-  updateChannelRoute,
   videoDetailsRoute,
 } from "../../utills/apiRoutes";
 import { Link, useParams } from "react-router-dom";
 import Video from "../../components/Video/Video";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/userSlice";
-import styles from "./VideoDetails.module.css";
+import { useSelector } from "react-redux";
 import Comments from "../../components/Comments/Comments";
+import Subscribe from "../../components/SubscribeButton/Subscribe";
+import toast from "react-hot-toast";
+import { DotLoader } from "react-spinners";
+import styles from "./VideoDetails.module.css";
 
 const VideoDetails = () => {
   const [video, setVideo] = useState({});
-  const [similarVideos, setSimilarVideos] = useState([]);
-
+  const [similar, setSimilar] = useState({ videos: [], isLoad: false });
   const [isDone, setIsDone] = useState({ like: false, subscribe: false });
 
   const { videoId } = useParams();
 
   const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const fetchVideoDetails = async () => {
     try {
@@ -43,7 +40,7 @@ const VideoDetails = () => {
           : false,
       }));
     } catch (error) {
-      console.log(error);
+      console.error(error.response.data);
     }
   };
 
@@ -56,20 +53,20 @@ const VideoDetails = () => {
       const { data } = await axios.get(
         `${allVideosRoute}?similarVideos=${video.category}&videoId=${videoId}`
       );
-      setSimilarVideos(data);
+      setSimilar({ isLoad: true, videos: data.videos });
     } catch (error) {
-      console.log(error);
+      console.error(error.response.data);
     }
   };
 
   useEffect(() => {
     if (video) fetchSimilarVideos();
-  }, [video]);
+  }, [video?._id]);
 
   const handleVideoLike = async (likeQry) => {
     try {
       const { data } = await axios.put(
-        `${likeVideoRoute}/${videoId}?${likeQry}=${user._id}`
+        `${likeVideoRoute}/${videoId}?${likeQry}=${user?._id}`
       );
       setVideo((p) => ({ ...p, likes: data }));
 
@@ -77,32 +74,12 @@ const VideoDetails = () => {
         ...p,
         like: data?.includes(user?._id) ? true : false,
       }));
+      if (data)
+        likeQry === "likedId"
+          ? toast.success("added to liked videos!")
+          : toast("removed from liked videos!");
     } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleChannelSubscribe = async (subQry) => {
-    try {
-      const { data } = await axios.put(
-        `${updateChannelRoute}/${video?.channel?._id}`,
-        { [subQry]: user?._id }
-      );
-
-      if (data) {
-        const updatedUser = await axios.put(
-          `${subscribeUserRoute}/${user?._id}?${subQry}=${data._id}`
-        );
-        console.log(updatedUser.data);
-        dispatch(setUser(updatedUser.data));
-      }
-      setVideo((p) => ({ ...p, channel: data }));
-      setIsDone((p) => ({
-        ...p,
-        subscribe: data?.subscribers.includes(user?._id) ? true : false,
-      }));
-    } catch (error) {
-      console.log(error);
+      console.error(error.response.data);
     }
   };
 
@@ -110,8 +87,8 @@ const VideoDetails = () => {
     <div className={styles.detCnt}>
       <div className={styles.videoCnt}>
         <ReactPlayer
-          width={668}
-          url={`data:${video.videoContentType};base64,${video.videoData}`}
+          width="100%"
+          url={`${getVideoRoute}/${video._id}`}
           controls
         />
         <div className={styles.videoDetails}>
@@ -132,7 +109,7 @@ const VideoDetails = () => {
                 />
               </Link>
               {/* Channel detail container */}
-              <div>
+              <div className={styles.chaDet}>
                 <Link
                   to={`/channel/${video?.channel?._id}`}
                   className={styles.title}
@@ -145,30 +122,19 @@ const VideoDetails = () => {
               </div>
 
               {/* Subscriber button */}
-              {isDone.subscribe ? (
-                <div
-                  className={`${styles.subBtn} ${styles.subscribed}`}
-                  onClick={() => handleChannelSubscribe("unSubscribe")}
-                >
-                  <IoMdNotificationsOutline />
-                  Subscribed
-                  <FaAngleDown />
-                </div>
-              ) : (
-                <div
-                  className={styles.subBtn}
-                  onClick={() => handleChannelSubscribe("subscribe")}
-                >
-                  Subscribe
-                </div>
-              )}
+              <Subscribe channelId={video?.channel?._id} />
             </div>
 
             <div className={styles.likes}>
               {isDone.like ? (
                 <AiFillLike onClick={() => handleVideoLike("removeLikedId")} />
               ) : (
-                <AiOutlineLike onClick={() => handleVideoLike("likedId")} />
+                <AiOutlineLike
+                  onClick={() => {
+                    if (!user) toast("Sign in to like!");
+                    else handleVideoLike("likedId");
+                  }}
+                />
               )}
               <span>{video.likes?.length}</span>
             </div>
@@ -186,9 +152,13 @@ const VideoDetails = () => {
       </div>
 
       <div className={styles.similarVideos}>
-        {similarVideos?.map((video) => (
-          <Video video={video} key={video._id} />
-        ))}
+        {!similar.isLoad ? (
+          <DotLoader color="white" />
+        ) : (
+          similar.videos?.map((video) => (
+            <Video video={video} key={video._id} />
+          ))
+        )}
       </div>
     </div>
   );

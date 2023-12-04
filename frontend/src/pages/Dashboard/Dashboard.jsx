@@ -20,8 +20,9 @@ import {
 import { FaCopyright, FaRegCopyright } from "react-icons/fa6";
 import uploadImg from "../../assets/upload.svg";
 import UploadModal from "../../components/UploadModal/UploadModal";
-import styles from "./dashboard.module.css";
 import Content from "../../components/Content/Content";
+import toast from "react-hot-toast";
+import styles from "./dashboard.module.css";
 
 const Dashboard = () => {
   const [activeLink, setActiveLink] = useState("dashboard");
@@ -32,8 +33,12 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !user?.isChannel) {
+    if (!user) {
+      toast("user logged out! sign in");
       navigate("/accounts/signin");
+    } else if (!user?.isChannel) {
+      toast("no channel found!");
+      navigate("/");
     }
   }, [user]);
 

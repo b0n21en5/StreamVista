@@ -115,8 +115,6 @@
 }
 
 /* Styles for User container */
-.userCnt {
-}
 
 .userCnt svg {
   width: 20px;
@@ -159,4 +157,44 @@
 .user .imgCnt img {
   border-radius: 50%;
   object-fit: cover;
+}
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .navCnt {
+    padding: 0;
+  }
+
+  .navLeft .moreBtn {
+    display: none;
+  }
+
+  .navCnt .logoCnt .logoText {
+    font-size: 1.25rem;
+  }
+
+  .searchBar input {
+    width: 6.25rem;
+  }
+  .searchCnt .searchIcon {
+    width: 2.5rem;
+  }
+
+  .signInCnt {
+    width: max-content;
+    height: max-content;
+    padding: 0.25rem;
+    margin-right: 0.5rem;
+  }
+
+  .user svg {
+    display: none;
+  }
+}
+
+/* Mobile responsiveness - 400px */
+@media screen and (max-width: 400px) {
+  .navCnt .logoCnt .logoText {
+    font-size: 1rem;
+  }
 }

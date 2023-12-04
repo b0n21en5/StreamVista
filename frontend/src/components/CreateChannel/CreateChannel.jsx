@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { setUser } from "../../store/userSlice";
+import { toast } from "react-hot-toast";
 
 import styles from "./CreateChannel.module.css";
-import { setUser } from "../../store/userSlice";
 
 const CreateChannel = ({ setIsVisible }) => {
   const [postData, setPostData] = useState({
@@ -48,10 +49,12 @@ const CreateChannel = ({ setIsVisible }) => {
         }
 
         const { data } = await axios.put(updateUserRoute, formData);
+        data.channel = newChannel.data;
         dispatch(setUser(data));
+        if (data) toast.success("Channel created!");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data);
     }
   };
 

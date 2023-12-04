@@ -4,7 +4,6 @@
   background-color: #fff;
 
   display: flex;
-  /* align-items: center; */
   justify-content: center;
 }
 
@@ -100,4 +99,27 @@
 
 .btnCnt button:hover {
   background-color: rgb(19, 94, 193);
+}
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .authMain {
+    height: 94vh;
+  }
+
+  .authCnt {
+    height: 88vh;
+    padding: 1rem;
+  }
+}
+
+/* Mobile responsiveness - 400px */
+@media screen and (max-width: 400px) {
+  .authMain {
+    height: 90vh;
+  }
+
+  .authCnt {
+    height: 80vh;
+  }
 }

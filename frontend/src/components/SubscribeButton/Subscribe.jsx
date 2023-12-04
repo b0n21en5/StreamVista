@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/userSlice";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 import styles from "./Subscribe.module.css";
 
 const Subscribe = ({ channelId }) => {
   const path = useLocation().pathname.split("/")[1];
-  console.log(path);
 
   const { user } = useSelector((state) => state.user);
 
@@ -26,17 +26,19 @@ const Subscribe = ({ channelId }) => {
           `${subscribeUserRoute}/${user?._id}?${subQry}=${data._id}`
         );
         dispatch(setUser(updatedUser.data));
+        if (updatedUser.data) toast.success("channel subscribed!");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data);
     }
   };
+
   return (
     <>
       {user?.subscribed?.includes(channelId) ? (
         <div
           className={`${styles.subBtn} ${styles.subscribed} ${
-            path === "channel" ? styles.mt40 : styles.ml40
+            path === "channel" ? styles.mt : styles.ml
           }`}
           onClick={(e) => {
             e.preventDefault();
@@ -50,11 +52,15 @@ const Subscribe = ({ channelId }) => {
         </div>
       ) : (
         <div
-          className={styles.subBtn}
+          className={`${styles.subBtn} ${
+            path === "channel" ? styles.mt : styles.ml
+          }`}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            handleChannelSubscribe("subscribe", channelId);
+            user
+              ? handleChannelSubscribe("subscribe", channelId)
+              : toast("Sign in to Subscribe!");
           }}
         >
           Subscribe
