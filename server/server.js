@@ -15,7 +15,11 @@ dotenv.config();
 const app = express();
 
 // middlewares
-app.use(cors());
+app.use(corscors({
+  origin: ["https://stream-vista.onrender.com", "http://localhost:5000"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+}));
 app.use(express.json());
 
 //  api routes
