@@ -9,9 +9,9 @@ import { RiVideoAddFill, RiVideoAddLine } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import UserMenu from "../UserMenu/UserMenu";
 import CreateChannel from "../CreateChannel/CreateChannel";
-import styles from "./Navbar.module.css";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import SidebarModal from "../SidebarModal/SidebarModal";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState({
@@ -21,6 +21,7 @@ const Navbar = () => {
     sidebar: false,
   });
   const [search, setSearch] = useState({ query: "", isActive: false });
+  const [mbScrn, setMbScrn] = useState(true);
 
   const inputRef = useRef(null);
 
@@ -29,6 +30,12 @@ const Navbar = () => {
   const match = useMatch("/search/:query");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.innerWidth > 440) {
+      setMbScrn(false);
+    }
+  }, [window.innerWidth]);
 
   useEffect(() => {
     if (match && match?.params.query) {
@@ -62,7 +69,7 @@ const Navbar = () => {
 
       <form className={styles.searchCnt} onSubmit={handleSearchVideosChannels}>
         <div className={styles.searchBar}>
-          {search.isActive && (
+          {!mbScrn && search.isActive && (
             <div className={styles.leftSearchIcon}>
               <GoSearch />
             </div>
@@ -78,7 +85,7 @@ const Navbar = () => {
             onFocus={() => setSearch((p) => ({ ...p, isActive: true }))}
             onBlur={() => setSearch((p) => ({ ...p, isActive: false }))}
           />
-          {search.query && (
+          {!mbScrn && search.query && (
             <RxCross1
               onClick={() => {
                 setSearch((p) => ({ ...p, query: "", isActive: true }));
@@ -96,7 +103,7 @@ const Navbar = () => {
         {!user ? (
           <Link to="/accounts/signin" className={styles.signInCnt}>
             <FaRegUserCircle />
-            Sign in
+            {!mbScrn && "Sign in"}
           </Link>
         ) : (
           <div className={styles.user}>
@@ -107,11 +114,13 @@ const Navbar = () => {
                 }
               />
             ) : (
-              <RiVideoAddLine
-                onClick={() =>
-                  setIsVisible((p) => ({ ...p, upload: !isVisible.upload }))
-                }
-              />
+              user.isChannel && (
+                <RiVideoAddLine
+                  onClick={() =>
+                    setIsVisible((p) => ({ ...p, upload: !isVisible.upload }))
+                  }
+                />
+              )
             )}
 
             <IoMdNotificationsOutline />
@@ -126,7 +135,7 @@ const Navbar = () => {
                 src={`${profilePicRoute}/${user?._id}`}
                 width={32}
                 height={32}
-                alt=""
+                alt="profile picture"
               />
             </div>
 

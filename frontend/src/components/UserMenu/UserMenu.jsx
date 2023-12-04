@@ -9,6 +9,7 @@ import { GoVideo } from "react-icons/go";
 import { CiStreamOn } from "react-icons/ci";
 import axios from "axios";
 import { RiDeleteBinLine } from "react-icons/ri";
+import toast from "react-hot-toast";
 
 import styles from "./UserMenu.module.css";
 
@@ -23,8 +24,9 @@ const UserMenu = ({ section, setIsVisible, videoId }) => {
         `${watchLaterRoute}/${user?._id}?${qry}=${videoId}`
       );
       dispatch(setUser(data));
+      if (data) toast.success("Added to watch later");
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data);
     }
   };
 
@@ -76,8 +78,11 @@ const UserMenu = ({ section, setIsVisible, videoId }) => {
             <div
               className={styles.menuItem}
               onClick={() => {
-                handleAddToWatchLater("addId");
                 setIsVisible((p) => ({ ...p, confirm: false }));
+
+                if (user) {
+                  handleAddToWatchLater("addId");
+                } else toast("Please sign in");
               }}
             >
               <MdOutlineWatchLater />
@@ -113,12 +118,14 @@ const UserMenu = ({ section, setIsVisible, videoId }) => {
             <div className={styles.userDet}>
               <div className={styles.userName}>{user?.name}</div>
               <div className={styles.userName}>{user?.email}</div>
-              <Link
-                to={`/channel/${user?.channel?._id}`}
-                onClick={() => setIsVisible((p) => ({ ...p, menu: false }))}
-              >
-                View your cahnnel
-              </Link>
+              {user.isChannel && (
+                <Link
+                  to={`/channel/${user?.channel?._id}`}
+                  onClick={() => setIsVisible((p) => ({ ...p, menu: false }))}
+                >
+                  View your cahnnel
+                </Link>
+              )}
             </div>
           </div>
 

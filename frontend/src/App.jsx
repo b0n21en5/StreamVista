@@ -8,11 +8,13 @@ import ChannelDetails from "./pages/ChannelDetails/ChannelDetails";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import SearchFeed from "./pages/SearchFeed/SearchFeed";
 import Library from "./pages/Library/Library";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <Toaster />
       <Routes>
         <Route path="/" element={<Feed />} />
         <Route path="/watch/:videoId" element={<VideoDetails />} />

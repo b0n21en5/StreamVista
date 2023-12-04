@@ -12,6 +12,7 @@ import Video from "../../components/Video/Video";
 import { useParams } from "react-router-dom";
 import { RxDotFilled } from "react-icons/rx";
 import Subscribe from "../../components/SubscribeButton/Subscribe";
+import { RingLoader, RotateLoader } from "react-spinners";
 
 import styles from "./ChannelDetails.module.css";
 
@@ -19,7 +20,8 @@ const ChannelDetails = () => {
   const [fetched, setFetched] = useState({
     videos: [],
     channel: {},
-    isLoad: false,
+    isChannelLoad: false,
+    isVideosLoad: false,
   });
 
   const { channelId } = useParams();
@@ -28,21 +30,19 @@ const ChannelDetails = () => {
 
   const fetchChannelDetails = async () => {
     try {
-      setFetched((p) => ({ ...p, isLoad: true }));
       const { data } = await axios.get(`${channelDetailsRoute}/${channelId}`);
-      setFetched((p) => ({ ...p, channel: data, isLoad: false }));
+      setFetched((p) => ({ ...p, channel: data, isChannelLoad: true }));
     } catch (error) {
-      console.log(error);
+      console.error(error.response.data);
     }
   };
 
   const fetchChannelVideos = async () => {
     try {
-      setFetched((p) => ({ ...p, isLoad: true }));
       const { data } = await axios.get(`${channelVideosRoute}/${channelId}`);
-      setFetched((p) => ({ ...p, videos: data, isLoad: false }));
+      setFetched((p) => ({ ...p, videos: data, isVideosLoad: true }));
     } catch (error) {
-      console.log(error);
+      console.error(error.response.data);
     }
   };
 
@@ -64,32 +64,36 @@ const ChannelDetails = () => {
           <img src={banner} alt="channel banner" height={172} width="100%" />
         </div>
 
-        <div className={styles.channelDet}>
-          {/* Channel logo */}
-          <div className={styles.logoCnt}>
-            <img
-              src={`${profilePicRoute}/${fetched?.channel?.userId}`}
-              alt="channel logo"
-              width={160}
-              height={160}
-            />
-          </div>
-
-          {/* Channel details */}
-          <div className={styles.detCnt}>
-            <div className={styles.name}>{fetched?.channel?.name}</div>
-            <div className={styles.subCount}>
-              {fetched?.channel?.subscribers?.length} subscribers
-              <RxDotFilled />
-              {fetched?.channel?.videos?.length} videos
+        {!fetched.isChannelLoad ? (
+          <RingLoader color="white" />
+        ) : (
+          <div className={styles.channelDet}>
+            {/* Channel logo */}
+            <div className={styles.logoCnt}>
+              <img
+                src={`${profilePicRoute}/${fetched?.channel?.userId}`}
+                alt="channel logo"
+                width={160}
+                height={160}
+              />
             </div>
-            <Subscribe channelId={fetched?.channel?._id} />
-          </div>
-        </div>
 
-        {/* Channel video containr */}
-        {fetched.isLoad ? (
-          "Loading..."
+            {/* Channel details */}
+            <div className={styles.detCnt}>
+              <div className={styles.name}>{fetched?.channel?.name}</div>
+              <div className={styles.subCount}>
+                {fetched?.channel?.subscribers?.length} subscribers
+                <RxDotFilled />
+                {fetched?.channel?.videos?.length} videos
+              </div>
+              <Subscribe channelId={fetched?.channel?._id} />
+            </div>
+          </div>
+        )}
+
+        {/* Channel video container */}
+        {!fetched.isVideosLoad ? (
+          <RingLoader color="white" />
         ) : (
           <div className={styles.videosCnt}>
             {fetched.videos?.map((video) => (

@@ -1,16 +1,23 @@
 import { Link, useLocation, useParams } from "react-router-dom";
-import { profilePicRoute } from "../../utills/apiRoutes";
+import { profilePicRoute, thumbnailRoute } from "../../utills/apiRoutes";
 import moment from "moment";
 import { RxDotFilled } from "react-icons/rx";
 import { RiMore2Fill } from "react-icons/ri";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserMenu from "../UserMenu/UserMenu";
 import styles from "./Video.module.css";
 
 const Video = ({ video }) => {
   const [isVisible, setIsVisible] = useState({ confirm: false });
+  const [mbScrn, setMbScrn] = useState(true);
 
   const path = useLocation().pathname.split("/")[1];
+
+  useEffect(() => {
+    if (window.innerWidth > 440) {
+      setMbScrn(false);
+    }
+  }, [window.innerWidth]);
 
   return (
     <Link
@@ -19,15 +26,15 @@ const Video = ({ video }) => {
         path === ""
           ? ""
           : path === "watch"
-          ? styles.simVid
+          ? !mbScrn && styles.simVid
           : path === "channel" || path === "feed"
           ? styles.chaVid
-          : styles.search
+          : !mbScrn && styles.search
       }`}
     >
       <div className={styles.imgCnt}>
         <img
-          src={`data:${video.thumbnailContentType};base64,${video.thumbnailData}`}
+          src={`${thumbnailRoute}/${video._id}`}
           width={371}
           height={209}
           alt="video thumbnail"
@@ -65,7 +72,11 @@ const Video = ({ video }) => {
               }}
             />
             {isVisible.confirm && (
-              <UserMenu section="more" setIsVisible={setIsVisible} videoId={video?._id} />
+              <UserMenu
+                section="more"
+                setIsVisible={setIsVisible}
+                videoId={video?._id}
+              />
             )}
           </div>
           {path !== "search" && (
@@ -96,9 +107,11 @@ const Video = ({ video }) => {
                 </div>
                 <div className={styles.channel}>{video.channel?.name}</div>
               </div>
-              <div className={styles.vidDesc}>
-                {video.description.substr(0, 120) + "..."}
-              </div>
+              {!mbScrn && (
+                <div className={styles.vidDesc}>
+                  {video.description.substr(0, 120) + "..."}
+                </div>
+              )}
             </>
           )}
         </div>

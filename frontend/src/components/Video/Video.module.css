@@ -175,3 +175,33 @@
   font-size: 0.75rem;
   color: #aaa;
 }
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .videoInfo .title {
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  .videoInfo .title svg {
+    height: 20px;
+  }
+
+  /* for search */
+  .searchChannel {
+    height: 26px;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+  }
+
+  /* for channels  */
+  .chaVid {
+    width: 160px;
+  }
+
+  .chaVid .imgCnt {
+    width: 160px;
+    height: 90px;
+  }
+}

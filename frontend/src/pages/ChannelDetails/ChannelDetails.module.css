@@ -50,3 +50,38 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .mainCnt {
+    flex-direction: column-reverse;
+  }
+
+  .channelCnt {
+    min-height: 87vh;
+    width: 96%;
+    padding: 0 0.5rem;
+  }
+
+  .channelCnt .bannerCnt {
+    width: 100%;
+  }
+
+  .bannerCnt img {
+    width: 100%;
+    height: 64px;
+  }
+
+  .channelDet .logoCnt img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .detCnt .name {
+    font-size: 1.5rem;
+  }
+
+  .videosCnt {
+    padding: 1rem;
+  }
+}

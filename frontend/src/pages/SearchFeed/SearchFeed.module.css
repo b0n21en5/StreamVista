@@ -9,6 +9,14 @@
   flex-direction: column;
 }
 
+.loader {
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Styles for videos section */
 .mainCnt .videosCnt {
   display: flex;
@@ -19,7 +27,6 @@
 .channelsCnt {
   width: 100%;
   padding-top: 1.5rem;
-  /* margin-top: 1.5rem ; */
   display: flex;
   flex-direction: column;
 }
@@ -61,4 +68,32 @@
   padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid rgba(128, 128, 128, 0.409);
+}
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .mainCnt {
+    flex-direction: column-reverse;
+  }
+
+  .mainCnt .resultsCnt {
+    min-height: 87vh;
+    padding: 0;
+  }
+
+  .channel .imgCnt {
+    width: max-content;
+    padding: 0 1rem;
+    height: 80px;
+  }
+
+  .channel .imgCnt img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .mainCnt .videosCnt {
+    align-items: center;
+    gap: 30px;
+  }
 }

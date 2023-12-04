@@ -38,3 +38,14 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
+/* Mobile responsivenes - 440px */
+@media screen and (max-width: 440px) {
+  .feedCnt {
+    flex-direction: column-reverse;
+  }
+
+  .videosCnt {
+    min-height: 80vh;
+  }
+}

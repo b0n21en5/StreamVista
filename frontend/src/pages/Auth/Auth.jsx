@@ -6,9 +6,11 @@ import {
   resetPasswordRoute,
 } from "../../utills/apiRoutes";
 import { useEffect, useState } from "react";
-import styles from "./Auth.module.css";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlice";
+import { toast } from "react-hot-toast";
+
+import styles from "./Auth.module.css";
 
 const Auth = () => {
   const [postData, setPostData] = useState({
@@ -37,9 +39,10 @@ const Auth = () => {
       }
 
       const { data } = await axios.post(registerRoute, formData);
-      console.log(data);
+      navigate("/accounts/signin");
+      if (data) toast.success("User registered! try sign in");
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data);
     }
   };
 
@@ -48,8 +51,9 @@ const Auth = () => {
       const { data } = await axios.post(loginRoute, postData);
       dispatch(setUser(data));
       navigate("/");
+      if (data) toast.success("logged in");
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data);
     }
   };
 
@@ -59,9 +63,10 @@ const Auth = () => {
         ...postData,
         newPassword: postData.password,
       });
-      console.log(data);
+      navigate("/accounts/signin");
+      if (data) toast.success("Password reset successfull!");
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data);
     }
   };
 

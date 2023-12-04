@@ -1,5 +1,4 @@
 .mainCnt {
-  /* width: 70vw; */
   display: flex;
 }
 
@@ -36,4 +35,39 @@
 .det .subCount {
   font-size: 0.85rem;
   color: rgb(147, 147, 147);
+}
+
+/* Mobile responsiveness - 440px */
+@media screen and (max-width: 440px) {
+  .mainCnt {
+    flex-direction: column-reverse;
+  }
+
+  .mainCnt .allChannels{
+    min-height: 87vh;
+  }
+
+  .mainCnt .channel {
+    width: max-content;
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+
+  .channel .avatarSec {
+    width: max-content;
+    height: 80px;
+  }
+
+  .channel .avatarSec img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .channel .det {
+    width: 100%;
+  }
+
+  .det .channelName {
+    font-size: 1rem;
+  }
 }

@@ -27,11 +27,19 @@ const SidebarModal = ({ setIsVisible }) => {
 
         {/* Sidebar items */}
         <div className={styles.sideItemsCnt}>
-          <Link to="/" className={styles.sideItem}>
+          <Link
+            to="/"
+            className={styles.sideItem}
+            onClick={() => setIsVisible((p) => ({ ...p, sidebar: false }))}
+          >
             {path === "/" ? <GoHomeFill /> : <GoHome />}
             <div className={styles.text}>Home</div>
           </Link>
-          <Link to="/feed/subscriptions" className={styles.sideItem}>
+          <Link
+            to="/feed/subscriptions"
+            className={styles.sideItem}
+            onClick={() => setIsVisible((p) => ({ ...p, sidebar: false }))}
+          >
             {path === "/feed/subscriptions" ? (
               <BsCollectionPlayFill />
             ) : (

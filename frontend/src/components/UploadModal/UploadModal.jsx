@@ -6,6 +6,8 @@ import { LuGalleryThumbnails } from "react-icons/lu";
 import {
   addVideoRoute,
   deleteVideoRoute,
+  getVideoRoute,
+  thumbnailRoute,
   updateChannelRoute,
   updateVideoRoute,
   videoDetailsRoute,
@@ -14,6 +16,7 @@ import axios from "axios";
 
 import styles from "./UploadModal.module.css";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const UploadModal = ({
   section = "",
@@ -56,12 +59,12 @@ const UploadModal = ({
         const { data } = await axios.put(`${updateChannelRoute}/${channelId}`, {
           videoId: newVideo.data?._id,
         });
-        console.log(data);
+        if (data) toast.success("video added!");
       }
-      navigateContent();
+      navigateContent(); // navigating to content section
       setIsVisible((p) => ({ ...p, upload: false }));
     } catch (error) {
-      console.log(error);
+      console.error(error.response.data);
     }
   };
 
@@ -84,12 +87,13 @@ const UploadModal = ({
   const fetchVideoDetails = async () => {
     try {
       const { data } = await axios.get(`${videoDetailsRoute}/${video._id}`);
-      setPreviewUrl((p) => ({
-        ...p,
-        video: `data:${data.videoContentType};base64,${data.videoData}`,
-      }));
+
+      setPreviewUrl({
+        video: `${getVideoRoute}/${data._id}`,
+        thumbnail: `${thumbnailRoute}/${video._id}`,
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error.response.data);
     }
   };
 
@@ -103,22 +107,24 @@ const UploadModal = ({
         thumbnail: "",
       });
 
-      setPreviewUrl((p) => ({
-        ...p,
-        thumbnail: `data:${video.thumbnailContentType};base64,${video.thumbnailData}`,
-      }));
-
       fetchVideoDetails();
     }
   }, [video]);
 
   const handleDeleteVideo = async () => {
     try {
-      const { data } = await axios.delete(`${deleteVideoRoute}/${video._id}`);
-      console.log(data);
+      const deletedvideo = await axios.delete(
+        `${deleteVideoRoute}/${video._id}`
+      );
+      if (deletedvideo.data) {
+        const { data } = await axios.put(`${updateChannelRoute}/${channelId}`, {
+          removeVideoId: deletedvideo.data?._id,
+        });
+        if (data) toast.success("video deleted!");
+      }
       setIsVisible((p) => ({ ...p, upload: false }));
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data);
     }
   };
 

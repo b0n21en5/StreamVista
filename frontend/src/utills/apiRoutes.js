@@ -1,5 +1,4 @@
-export const host =
-  process.env.NODE_ENV === "production" ? undefined : "http://localhost:5000";
+export const host = "http://localhost:5000";
 
 // user auth routes
 export const registerRoute = `${host}/api/v1/users/register`;
@@ -15,7 +14,7 @@ export const watchLaterRoute = `${host}/api/v1/users/watch-list`;
 // channel routes
 export const createChannelRoute = `${host}/api/v1/channels/create`;
 export const updateChannelRoute = `${host}/api/v1/channels/update`; // params: channelId
-export const fetchAllChannelsRoute = `${host}/api/v1/channels/get-all`;
+export const allChannelsRoute = `${host}/api/v1/channels/get-all`;
 export const channelDetailsRoute = `${host}/api/v1/channels/channel-details`;
 export const channelVideosRoute = `${host}/api/v1/channels/channel-videos`;
 
@@ -25,6 +24,8 @@ export const updateVideoRoute = `${host}/api/v1/videos/update`; // params: video
 export const deleteVideoRoute = `${host}/api/v1/videos/delete`; // params: videoId
 export const likeVideoRoute = `${host}/api/v1/videos/like`; // params: likedId or removeLikedId
 export const videoDetailsRoute = `${host}/api/v1/videos/video-details`; // params: videoId
+export const thumbnailRoute = `${host}/api/v1/videos/video-thumbnail`; // params: videoId
+export const getVideoRoute = `${host}/api/v1/videos/get-video`; // params: videoId
 export const allCategoriesRoute = `${host}/api/v1/videos/get-categories`;
 export const allVideosRoute = `${host}/api/v1/videos/get-all`; // query: category
 export const searchVideosChannelsRoute = `${host}/api/v1/videos/search`; // query: q
