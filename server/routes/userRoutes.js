@@ -6,12 +6,7 @@ import {
   registerController,
   resetPassword,
   toogleChannelSubscribe,
-  getSubscribedChannelDetails,
   getWatchListVideos,
-  loginController,
-  registerController,
-  resetPassword,
-  toogleChannelSubscribe,
   updateWatchListcontroller,
   updatedUserController,
 } from "../controllers/userControllers.js";

@@ -235,14 +235,12 @@ export const getWatchListVideos = async (req, res) => {
 
     const userVideos = await userModel
       .findById(userId)
-      .populate("watchList")
+      .populate({ path: "watchList", select: "-thumbnail -video" })
       .select("watchList");
 
     let watchListVideos = userVideos.watchList.map((video) => ({
-      _id: video.id,
+      _id: video._id,
       title: video.title,
-      thumbnailData: video.thumbnail.data.toString("base64"),
-      thumbnailContentType: video.thumbnail.type,
       channel: video.channel,
       views: video.views,
       createdAt: video.createdAt,

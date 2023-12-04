@@ -7,6 +7,8 @@ import {
   getLikedVideos,
   getSingleVideoDetails,
   getVideoComments,
+  getVideoController,
+  getVideoThumbnail,
   searchVideosChannels,
   toggleLikeOnVideo,
   updateVideoComments,
@@ -26,6 +28,8 @@ router.delete("/delete/:videoId", deleteVideoController);
 router.put("/like/:videoId", toggleLikeOnVideo);
 
 router.get("/video-details/:videoId", getSingleVideoDetails);
+router.get("/video-thumbnail/:videoId", getVideoThumbnail);
+router.get("/get-video/:videoId", getVideoController);
 
 router.get("/get-categories", fetchAllCategories);
 
