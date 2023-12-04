@@ -85,16 +85,16 @@ export const getChannelDetails = async (req, res) => {
 export const getChannelVideos = async (req, res) => {
   try {
     const { channelId } = req.params;
-    const channel = await channelModel.findById(channelId).populate("videos");
+    const channel = await channelModel
+      .findById(channelId)
+      .populate({ path: "videos", select: "-thumbnail -video" });
     if (!channel) {
       return clientError(res, "No Channel Found!");
     }
 
     const response = channel.videos.map((video) => ({
-      _id: video.id,
+      _id: video._id,
       title: video.title,
-      thumbnailData: video.thumbnail.data.toString("base64"),
-      thumbnailContentType: video.thumbnail.type,
       channel: video.channel,
       category: video.category,
       views: video.views,
