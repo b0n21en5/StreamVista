@@ -138,8 +138,16 @@ export const getVideoController = async (req, res) => {
   try {
     const video = await videoModel.findById(req.params.videoId).select("video");
 
-    res.set("Content-type", video.video.contentType);
-    return res.send(video.video.data);
+    const videoBuffer = video.video.data;
+    const videoSize = Buffer.from(videoBuffer).length;
+
+    res.writeHead(200, {
+      "Content-Type": video.video.contentType,
+      "Content-Length": videoSize,
+      "Cache-Control": "public, max-age=604800",
+    });
+
+    res.end(videoBuffer);
   } catch (error) {
     return serverError(res, error, "Error fetching video!");
   }
