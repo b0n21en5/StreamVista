@@ -3,6 +3,9 @@ export const clientError = (res, message) => {
 };
 
 export const serverError = (res, error, message) => {
-  console.log(error);
+  if (process.env.NODE_ENV === "development") {
+    console.log(error);
+  }
+
   return res.status(500).send(message);
 };
