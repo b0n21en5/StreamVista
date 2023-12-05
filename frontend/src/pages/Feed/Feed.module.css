@@ -39,6 +39,16 @@
   gap: 20px;
 }
 
+
+/* Custom location Loader */
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  width: 100vw;
+}
+
 /* Mobile responsivenes - 440px */
 @media screen and (max-width: 440px) {
   .feedCnt {
@@ -47,5 +57,12 @@
 
   .videosCnt {
     min-height: 80vh;
+  }
+}
+
+/* Mobile responsiveness - 400px */
+@media screen and (max-width: 400px) {
+  .videosCnt {
+    padding: 0;
   }
 }
