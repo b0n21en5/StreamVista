@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import axios from "axios";
 import {
@@ -22,6 +22,8 @@ const VideoDetails = () => {
   const [video, setVideo] = useState({});
   const [similar, setSimilar] = useState({ videos: [], isLoad: false });
   const [isDone, setIsDone] = useState({ like: false, subscribe: false });
+
+  const videoRef = useRef(null);
 
   const { videoId } = useParams();
 
@@ -46,6 +48,10 @@ const VideoDetails = () => {
 
   useEffect(() => {
     fetchVideoDetails();
+
+    if (videoRef.current) {
+      videoRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [videoId]);
 
   const fetchSimilarVideos = async () => {
@@ -60,7 +66,7 @@ const VideoDetails = () => {
   };
 
   useEffect(() => {
-    if (video) fetchSimilarVideos();
+    fetchSimilarVideos();
   }, [video?._id]);
 
   const handleVideoLike = async (likeQry) => {
@@ -85,10 +91,10 @@ const VideoDetails = () => {
 
   return (
     <div className={styles.detCnt}>
-      <div className={styles.videoCnt}>
+      <div className={styles.videoCnt} ref={videoRef}>
         <ReactPlayer
           width="100%"
-          url={`${getVideoRoute}/${video._id}`}
+          url={`${getVideoRoute}/${videoId}`}
           controls
         />
         <div className={styles.videoDetails}>
@@ -101,12 +107,14 @@ const VideoDetails = () => {
                 to={`/channel/${video?.channel?._id}`}
                 className={styles.imgCnt}
               >
-                <img
-                  width={40}
-                  height={40}
-                  src={`${profilePicRoute}/${video.channel?.userId}`}
-                  alt="channel logo"
-                />
+                {video?.channel?.userId && (
+                  <img
+                    width={40}
+                    height={40}
+                    src={`${profilePicRoute}/${video.channel?.userId}`}
+                    alt="channel logo"
+                  />
+                )}
               </Link>
               {/* Channel detail container */}
               <div className={styles.chaDet}>

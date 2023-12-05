@@ -205,3 +205,16 @@
     height: 90px;
   }
 }
+
+/* Mobile responsivenes - 400px */
+@media screen and (max-width: 400px) {
+  .video .imgCnt {
+    width: 100%;
+  }
+
+  .vidInfoCnt {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+}

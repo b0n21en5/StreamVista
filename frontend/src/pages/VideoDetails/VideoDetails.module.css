@@ -113,14 +113,13 @@
 
   .videoDetails .title {
     font-size: 1rem;
-    
   }
 
   .ctaCnt .channel .imgCnt {
     width: 34px;
   }
 
-  .ctaCnt .channel .chaDet{
+  .ctaCnt .channel .chaDet {
     margin-left: 10px;
   }
 
@@ -134,12 +133,27 @@
   }
 
   .videoDetails .descriptionCnt {
-    display: none;
+    min-height: 40px;
+    max-height: 100px;
+    width: 85vw;
+    overflow: auto;
+    text-overflow: ellipsis;
+  }
+
+  .videoDetails .descriptionCnt::-webkit-scrollbar{
+    width: 0;
   }
 
   .similarVideos {
     padding: 0;
     align-items: center;
     gap: 30px;
+  }
+}
+
+/* Mobile responsiveness - 400px */
+@media screen and (max-width: 400px) {
+  .similarVideos {
+    width: 100%;
   }
 }
