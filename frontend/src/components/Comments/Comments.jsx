@@ -48,6 +48,10 @@ const Comments = () => {
     fetchAllComments();
   }, []);
 
+  useEffect(() => {
+    fetchAllComments();
+  }, [videoId]);
+
   const handleAddComments = async () => {
     try {
       const { data } = await axios.put(`${updateCommentsRoute}/${videoId}`, {

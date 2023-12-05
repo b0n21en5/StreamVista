@@ -127,7 +127,7 @@
   .mainCnt .allCommCnt {
     padding: 1rem;
     overflow: auto;
-    height: 200px;
+    max-height: 200px;
     background-color: #ffffff10;
     border-radius: 6px;
   }

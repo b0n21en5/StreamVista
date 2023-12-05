@@ -115,7 +115,9 @@ const Feed = () => {
               <Video video={video} key={video._id} />
             ))
           ) : (
-            <FadeLoader color="white" />
+            <div className={styles.loaderContainer}>
+              <FadeLoader color="white" />
+            </div>
           )}
         </div>
       </div>
